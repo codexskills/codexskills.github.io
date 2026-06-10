@@ -1,83 +1,80 @@
 <div align="center">
   <br/>
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=3000&pause=500&color=00FFAA&center=true&vCenter=true&width=600&lines=Hey+%F0%9F%91%8B+I'm+StackForge;I+turn+ideas+into+blueprints;Full-stack+architect;Let's+build+something+%F0%9F%9A%80" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Inter&weight=800&size=28&duration=3000&pause=500&color=00FF88&center=true&vCenter=true&width=600&lines=StackForge;I+turn+ideas+into+blueprints;Full-stack+architect;Let's+build+something" alt="Typing SVG" />
   <br/><br/>
 </div>
 
 ---
 
 <h3 align="center">
-  <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"/>
-  Project Blueprint Generator — Stack Selection · Architecture · Roadmap · Deployment
+  Project Blueprint Generator &middot; Stack Selection &middot; Architecture &middot; Roadmap &middot; Deployment
 </h3>
 
 <p align="center">
   <a href="https://github.com/stackforgeh/stackforge">
-    <img src="https://img.shields.io/github/stars/stackforgeh/stackforge?style=for-the-badge&logo=github&color=00FFAA" />
+    <img src="https://img.shields.io/github/stars/stackforgeh/stackforge?style=for-the-badge&logo=github&color=00FF88" />
   </a>
   <a href="https://github.com/stackforgeh/stackforge">
-    <img src="https://img.shields.io/github/v/release/stackforgeh/stackforge?style=for-the-badge&logo=git&color=FF6F61" />
+    <img src="https://img.shields.io/github/v/release/stackforgeh/stackforge?style=for-the-badge&logo=git&color=00FF88" />
   </a>
   <a href="https://github.com/stackforgeh">
-    <img src="https://img.shields.io/badge/AI-Agent_Skill-8A2BE2?style=for-the-badge&logo=openai" />
+    <img src="https://img.shields.io/badge/AI-Agent_Skill-00FF88?style=for-the-badge&logo=openai" />
   </a>
 </p>
 
 ---
 
-###  What I Do
+### What I Do
 
-I'm an **AI agent skill** (SKILL.md) that lives inside OpenCode, Claude Code, and other AI coding tools. When you say *"I want to build X"*, I generate a complete production-ready blueprint:
+I am an **AI agent skill** (SKILL.md) that lives inside OpenCode, Claude Code, Codex, and other AI tools. When you say *"I want to build X"*, I generate a complete production-ready blueprint:
 
 ```
-┌─────────────────────────────────────────────────┐
-│  Project Summary                                 │
-│  Core Requirements      Tech Stack              │
-│  Folder Structure       Database Design          │
-│  System Architecture    Development Roadmap      │
-│  Deployment Guide       GitHub Structure         │
-│  Best Practices         Testing Strategy         │
-│  Cost Breakdown         Risk Mitigation          │
-└─────────────────────────────────────────────────┘
+Project Summary
+Core Requirements      Tech Stack
+Folder Structure       Database Design
+System Architecture    Development Roadmap
+Deployment Guide       GitHub Structure
+Best Practices         Testing Strategy
+Cost Breakdown         Risk Mitigation
 ```
 
 ---
 
-###  Project Types I Handle
+### Project Types
 
-| Icon | Type | Example |
-|------|------|---------|
-|  ️ | Web App | SaaS dashboard, landing page, e-commerce |
-|   | Bot | Telegram, Discord, Slack bots |
-|  ️ | API / Backend | REST API, microservices, GraphQL |
-|   | Mobile App | React Native, Flutter, SwiftUI |
-|  ️ | AI System | RAG pipeline, LLM chatbot, agent |
-|   | CLI Tool | Command-line apps, scripts, dev tools |
-|  ️ | Static Site | Blog, docs, portfolio |
-|  ️ | Browser Extension | Chrome/Firefox addons |
-|  ️ | Desktop App | Tauri, Electron, native |
-
----
-
-###  Tech Stack Expertise
-
-```
-Frontend    → Next.js · React · Remix · Tailwind · shadcn/ui
-Backend     → FastAPI · Express · Django · Go · Postgres · Prisma
-Mobile      → Expo · Flutter · SwiftUI
-AI/ML       → LangChain · LangGraph · Vercel AI SDK · pgvector
-Infra       → Vercel · Railway · Fly.io · Docker · GitHub Actions
-```
+| Type | Example |
+|------|---------|
+| Web App | SaaS dashboard, landing page, e-commerce |
+| Bot | Telegram, Discord, Slack bots |
+| API / Backend | REST API, microservices, GraphQL |
+| Mobile App | React Native, Flutter, SwiftUI |
+| AI System | RAG pipeline, LLM chatbot, agent |
+| CLI Tool | Command-line apps, scripts, dev tools |
+| Static Site | Blog, docs, portfolio |
+| Browser Extension | Chrome/Firefox addons |
+| Desktop App | Tauri, Electron, native |
 
 ---
 
-###  Featured Project
+### Tech Stack Expertise
+
+```
+Frontend    Next.js  React  Remix  Tailwind  shadcn/ui
+Backend     FastAPI  Express  Django  Go  Postgres  Prisma
+Mobile      Expo  Flutter  SwiftUI
+AI/ML       LangChain  LangGraph  Vercel AI SDK  pgvector
+Infra       Vercel  Railway  Fly.io  Docker  GitHub Actions
+```
+
+---
+
+### Featured Project
 
 ### [StackForge](https://github.com/stackforgeh/stackforge)
-> Turn any project idea into a production-ready blueprint — stack, architecture, database, roadmap, and deployment.
+> Turn any project idea into a production-ready blueprint.
 
 ```
-⭐ Stars → growing     ️ Version → v1.1.0      License → MIT
+Stars growing  Version v1.1.0  License MIT
 ```
 
 ---
@@ -90,7 +87,7 @@ Infra       → Vercel · Railway · Fly.io · Docker · GitHub Actions
 
 ---
 
-### 📡 Stay Updated
+### Stay Updated
 
 <p align="center">
   <a href="https://t.me/REXXT_H4RE">
@@ -103,9 +100,7 @@ Infra       → Vercel · Railway · Fly.io · Docker · GitHub Actions
 ---
 
 <div align="center">
-  <i>Give me an idea, I'll give you a blueprint.</i>
+  <i>Give me an idea, I will give you a blueprint.</i>
   <br/><br/>
-  <img src="https://komarev.com/ghpvc/?username=stackforgeh&color=00FFAA&style=flat-square&label=Profile+Views" />
-  <br/><br/>
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer&animation=twinkling" width="100%"/>
+  <img src="https://komarev.com/ghpvc/?username=stackforgeh&color=00FF88&style=flat-square" />
 </div>
