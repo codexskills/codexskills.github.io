@@ -2,29 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CodexSkills — Deepu Kumar</title>
+<title>codexskills — AI Agent Developer & Open Source Builder</title>
+<meta name="description" content="codexskills — Full-stack developer portfolio. AI agent developer, open source contributor, creator of StackForge & Agent Forge.">
+<meta name="keywords" content="developer portfolio, claude code portfolio, codexskills, AI agent developer, stackforge, agent forge">
+<meta property="og:title" content="codexskills — Developer Portfolio">
+<meta property="og:description" content="AI agent developer & open source builder. StackForge, Agent Forge, and developer tools.">
+<meta property="og:url" content="https://codexskills.github.io">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#07070a;--bg2:#0c0c14;--surface:rgba(255,255,255,.04);
-  --surface-hover:rgba(255,255,255,.08);--border:rgba(255,255,255,.06);
-  --border-hover:rgba(255,255,255,.12);
-  --text:#f0f0f5;--text2:#8888a0;--text3:#555570;
-  --accent1:#7c3aed;--accent2:#06b6d4;--accent3:#10b981;
-  --gradient:linear-gradient(135deg,var(--accent1),var(--accent2),var(--accent3));
-  --gradient2:linear-gradient(135deg,var(--accent1),var(--accent3));
-  --radius:16px;--radius-sm:10px;--radius-lg:24px;
-  --ff:'Inter',sans-serif;--shadow:0 8px 40px rgba(0,0,0,.5);
-  --nav-h:64px;--sidebar-w:280px;
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2333;
+  --surface:rgba(255,255,255,.03);--surface-hover:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.08);--border-hover:rgba(255,255,255,.12);
+  --text:#e6edf3;--text2:#8b949e;--text3:#484f58;
+  --accent:#3fb950;--accent2:#58a6ff;--accent3:#d2a8ff;
+  --orange:#d29922;--pink:#f778ba;
+  --gradient:linear-gradient(135deg,#3fb950,#58a6ff,#d2a8ff);
+  --radius:12px;--radius-sm:8px;--radius-lg:20px;
+  --ff-sans:'Inter',system-ui,-apple-system,sans-serif;
+  --ff-mono:'JetBrains Mono','Fira Code',monospace;
+  --shadow:0 8px 40px rgba(0,0,0,.4);
+  --max-w:1100px;--nav-h:64px;
+  --code-bg:#1a1f2e;
 }
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{
-  font-family:var(--ff);background:var(--bg);color:var(--text);
+  font-family:var(--ff-sans);background:var(--bg);color:var(--text);
   line-height:1.6;min-height:100vh;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
@@ -32,916 +39,612 @@ a{color:inherit;text-decoration:none}
 button{cursor:pointer;border:none;outline:none;font-family:inherit}
 img{display:block;max-width:100%}
 input,textarea{font-family:inherit;outline:none}
+ul{list-style:none}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+.section{padding:80px 0}
+.section-label{font-family:var(--ff-mono);font-size:.72rem;color:var(--accent);font-weight:500;letter-spacing:.5px;margin-bottom:8px}
+.section-title{font-size:2rem;font-weight:800;margin-bottom:16px}
+.section-sub{font-size:.92rem;color:var(--text2);max-width:600px;margin-bottom:40px;line-height:1.7}
 
-/* ===== PARTICLE CANVAS ===== */
-#particles-canvas{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(13,17,23,.85);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);height:var(--nav-h);
 }
+.navbar .container{display:flex;align-items:center;justify-content:space-between;height:100%}
+.nav-logo{font-family:var(--ff-mono);font-weight:700;font-size:1.05rem;color:var(--accent);display:flex;align-items:center;gap:8px}
+.nav-logo span{color:var(--text2);font-weight:400}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{padding:6px 14px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:500;color:var(--text2);transition:.2s}
+.nav-links a:hover{color:var(--text);background:var(--surface)}
+.nav-cta{padding:6px 18px!important;background:var(--accent)!important;color:#0d1117!important;border-radius:var(--radius-sm)!important;font-weight:600!important;margin-left:8px}
+.nav-cta:hover{opacity:.9}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;padding:4px;border-radius:var(--radius-sm)}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+.mobile-menu{
+  position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;z-index:999;
+  background:rgba(13,17,23,.98);backdrop-filter:blur(20px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  transform:translateX(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.mobile-menu.open{transform:translateX(0);display:flex}
+.mobile-menu a{font-size:1.2rem;font-weight:600;padding:12px 24px;color:var(--text2);transition:.2s}
+.mobile-menu a:hover{color:var(--accent)}
 
-/* ===== APP SHELL ===== */
-.app{
-  position:relative;z-index:1;display:flex;gap:20px;
-  max-width:1200px;margin:0 auto;padding:20px;min-height:100vh;
-  padding-bottom:calc(var(--nav-h) + 20px);
+.hero{
+  min-height:100vh;display:flex;align-items:center;padding-top:var(--nav-h);position:relative;overflow:hidden;
 }
+.hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hero-bg .grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(63,185,80,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(63,185,80,.03) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.hero-bg .glow{
+  position:absolute;top:20%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(63,185,80,.06),transparent 70%);
+}
+.hero-content{position:relative;z-index:1;width:100%}
+.hero-code-block{
+  background:var(--code-bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:32px;max-width:fit-content;font-family:var(--ff-mono);font-size:.78rem;line-height:1.8;box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+.hero-code-block .comment{color:var(--text3)}
+.hero-code-block .keyword{color:var(--accent3)}
+.hero-code-block .fn{color:var(--accent2)}
+.hero-code-block .str{color:var(--accent)}
+.hero-code-block .var{color:var(--orange)}
+.hero-greeting{font-size:1rem;color:var(--text2);margin-bottom:8px;font-weight:500}
+.hero-name{font-size:3.2rem;font-weight:900;line-height:1.1;margin-bottom:12px}
+.hero-name .highlight{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-roles{font-size:1.15rem;color:var(--text2);margin-bottom:20px;min-height:1.6em;font-family:var(--ff-mono)}
+.hero-roles .cursor-blink{animation:blink .8s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.hero-desc{font-size:.95rem;color:var(--text2);max-width:580px;line-height:1.8;margin-bottom:28px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 24px;
+  border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;transition:.3s;border:1px solid transparent;
+}
+.btn-primary{background:var(--accent);color:#0d1117}
+.btn-primary:hover{box-shadow:0 4px 20px rgba(63,185,80,.3);transform:translateY(-1px)}
+.btn-secondary{background:transparent;border-color:var(--border);color:var(--text)}
+.btn-secondary:hover{border-color:var(--text2);background:var(--surface)}
+.btn svg{width:16px;height:16px}
+.hero-socials{display:flex;gap:12px}
+.hero-socials a{
+  width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;transition:.3s;color:var(--text2);
+}
+.hero-socials a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-socials a svg{width:18px;height:18px}
 
-/* ===== SIDEBAR ===== */
-.sidebar{
-  position:sticky;top:20px;width:var(--sidebar-w);flex-shrink:0;
-  background:var(--surface);backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border:1px solid var(--border);border-radius:var(--radius-lg);
-  padding:28px;box-shadow:var(--shadow);height:fit-content;
-  transition:.3s;
-}
-.sidebar:hover{border-color:var(--border-hover)}
-.avatar-box{
-  width:90px;height:90px;border-radius:50%;margin:0 auto 16px;
-  background:var(--gradient);display:flex;align-items:center;
-  justify-content:center;font-size:1.6rem;font-weight:700;color:#fff;
-  box-shadow:0 0 30px rgba(124,58,237,.3);
-  animation:avatarPulse 4s ease-in-out infinite;
-}
-@keyframes avatarPulse{
-  0%,100%{box-shadow:0 0 30px rgba(124,58,237,.3)}
-  50%{box-shadow:0 0 50px rgba(6,182,212,.3)}
-}
-.sidebar-info{text-align:center;margin-bottom:16px}
-.name{
-  font-size:1.2rem;font-weight:700;margin-bottom:2px;
-  background:var(--gradient);-webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;background-clip:text;
-}
-.title{
-  font-size:.72rem;color:var(--text2);font-weight:500;
-  letter-spacing:.5px;
-}
-.separator{width:100%;height:1px;background:var(--border);margin:18px 0}
-.contacts-list{display:flex;flex-direction:column;gap:8px}
-.contact-item{display:flex;align-items:center;gap:10px;font-size:.75rem}
-.contact-item .icon-box{
-  width:34px;height:34px;border-radius:var(--radius-sm);
-  background:var(--surface);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:.3s;
-}
-.contact-item:hover .icon-box{border-color:var(--accent1)}
-.contact-item .icon-box svg{width:15px;height:15px;color:var(--text2)}
-.contact-title{font-size:.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
-.contact-link{font-size:.7rem;color:var(--text);word-break:break-all}
-.contact-link:hover{color:var(--accent2)}
-.social-list{display:flex;justify-content:center;gap:8px;margin-top:16px}
-.social-link{
-  width:36px;height:36px;border-radius:var(--radius-sm);
-  background:var(--surface);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;transition:.3s;
-}
-.social-link:hover{
-  background:var(--surface-hover);border-color:var(--accent1);
-  transform:translateY(-2px);
-}
-.social-link svg{width:15px;height:15px;color:var(--text2)}
-.social-link:hover svg{color:var(--accent2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.about-text p{font-size:.92rem;color:var(--text2);line-height:1.8;margin-bottom:16px}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;transition:.3s}
+.stat-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.stat-num{font-size:1.8rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:.72rem;color:var(--text2);margin-top:4px;font-weight:500}
+.about-code{background:var(--code-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;font-family:var(--ff-mono);font-size:.75rem;line-height:2}
+.about-code .line-num{color:var(--text3);margin-right:16px;user-select:none}
+.about-code .key{color:var(--accent3)}
+.about-code .str{color:var(--accent)}
+.about-code .str2{color:var(--orange)}
+.about-code .bool{color:var(--accent2)}
 
-/* ===== MAIN CONTENT ===== */
-.main-content{
-  flex:1;min-width:0;
-  background:var(--surface);backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border:1px solid var(--border);border-radius:var(--radius-lg);
-  padding:36px;box-shadow:var(--shadow);
-}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.skill-cat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.skill-cat-title{font-family:var(--ff-mono);font-size:.72rem;font-weight:600;color:var(--accent);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+.skill-items{display:flex;flex-direction:column;gap:10px}
+.skill-item{display:flex;align-items:center;gap:10px;font-size:.82rem;padding:6px 10px;border-radius:6px;transition:.2s;color:var(--text2)}
+.skill-item:hover{background:var(--surface-hover);color:var(--text)}
+.skill-item svg{width:16px;height:16px;flex-shrink:0;color:var(--accent2)}
 
-/* ===== TOP NAV ===== */
-.top-nav{display:none}
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s}
+.project-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.project-img{
+  height:180px;background:var(--bg3);display:flex;align-items:center;
+  justify-content:center;position:relative;overflow:hidden;
+}
+.project-img .overlay{
+  position:absolute;inset:0;background:linear-gradient(to top,var(--bg),transparent 60%);
+  opacity:0;transition:.3s;
+}
+.project-card:hover .overlay{opacity:1}
+.project-img .placeholder-icon{font-size:2.6rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.project-body{padding:20px}
+.project-body h3{font-size:1rem;font-weight:700;margin-bottom:6px}
+.project-body .desc{font-size:.78rem;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.project-body .outcome{font-size:.72rem;color:var(--accent);margin-bottom:10px;font-style:italic}
+.project-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.project-tags span{font-size:.62rem;padding:3px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--border);font-family:var(--ff-mono);color:var(--accent2);font-weight:500}
+.project-links{display:flex;gap:12px;font-size:.75rem;flex-wrap:wrap}
+.project-links a{display:inline-flex;align-items:center;gap:6px;color:var(--text2);font-weight:500;transition:.2s}
+.project-links a:hover{color:var(--accent)}
+.project-links .star{color:var(--orange)}
 
-/* ===== DESKTOP TAB NAV ===== */
-.tab-nav{display:flex;gap:4px;margin-bottom:32px;background:var(--surface);padding:4px;border-radius:var(--radius-sm);border:1px solid var(--border);width:fit-content}
-.tab-link{
-  padding:8px 20px;border-radius:8px;font-size:.78rem;font-weight:500;
-  background:transparent;color:var(--text2);transition:.3s;white-space:nowrap;
-}
-.tab-link:hover{color:var(--text);background:var(--surface-hover)}
-.tab-link.active{background:var(--gradient);color:#fff;box-shadow:0 4px 15px rgba(124,58,237,.3)}
-
-/* ===== ARTICLES ===== */
-article{display:none}
-article.active{display:block;animation:fadeUp .4s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-/* ===== REVEAL ===== */
-.reveal{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.25,.46,.45,.94)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-/* ===== ABOUT ===== */
-.hero-section{
-  text-align:center;padding:40px 20px;margin-bottom:32px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius-lg);position:relative;overflow:hidden;
-}
-.hero-section::before{
-  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:radial-gradient(circle at 30% 50%,rgba(124,58,237,.08),transparent 50%),
-             radial-gradient(circle at 70% 50%,rgba(6,182,212,.06),transparent 50%);
-  animation:heroGlow 8s ease-in-out infinite alternate;
-}
-@keyframes heroGlow{
-  0%{transform:translate(0,0)}
-  100%{transform:translate(-10%,-10%)}
-}
-.hero-greeting{font-size:.85rem;color:var(--text2);margin-bottom:8px;position:relative}
-.hero-title{
-  font-size:2rem;font-weight:800;margin-bottom:12px;position:relative;
-  background:var(--gradient);-webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero-sub{
-  font-size:.88rem;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.7;position:relative;
-}
-.hero-stats{
-  display:flex;justify-content:center;gap:32px;margin-top:24px;position:relative;
-}
-.stat-item{text-align:center}
-.stat-num{font-size:1.5rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat-label{font-size:.68rem;color:var(--text2);margin-top:2px}
-.article-title{
-  font-size:1.4rem;font-weight:700;margin-bottom:24px;padding-bottom:12px;
-  border-bottom:1px solid var(--border);
-}
-.about-text p{font-size:.85rem;color:var(--text2);line-height:1.8;margin-bottom:12px}
-
-.service-title{font-size:1rem;font-weight:600;margin:28px 0 16px;display:flex;align-items:center;gap:8px}
-.service-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.service-item{
-  display:flex;gap:14px;padding:18px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);transition:.3s;
-}
-.service-item:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
-.service-icon-box{
-  width:40px;height:40px;border-radius:var(--radius-sm);
-  background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(6,182,212,.1));
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.service-icon-box svg{width:20px;height:20px;color:var(--accent2)}
-.service-item-title{font-size:.85rem;font-weight:600;margin-bottom:4px}
-.service-item-text{font-size:.72rem;color:var(--text2);line-height:1.6}
-
-.testimonials-title{font-size:1rem;font-weight:600;margin:28px 0 16px;display:flex;align-items:center;gap:8px}
-.testimonials-list{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory}
-.testimonials-list::-webkit-scrollbar{height:4px}
-.testimonials-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.testimonials-item{min-width:260px;flex-shrink:0;scroll-snap-align:start}
-.content-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);padding:20px;cursor:pointer;transition:.3s;
-  height:100%;
-}
-.content-card:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
-.testimonials-avatar-box{
-  width:44px;height:44px;border-radius:50%;margin-bottom:10px;
-  background:var(--gradient2);display:flex;align-items:center;
-  justify-content:center;font-weight:700;font-size:.75rem;color:#fff;
-}
-.testimonials-item-title{font-size:.85rem;font-weight:600;margin-bottom:6px}
-.testimonials-text p{font-size:.72rem;color:var(--text2);line-height:1.6}
-
-/* ===== MODAL ===== */
-.modal-container{
-  position:fixed;inset:0;z-index:999;display:flex;
-  align-items:center;justify-content:center;
-  visibility:hidden;opacity:0;transition:.3s;padding:16px;
-}
-.modal-container.active{visibility:visible;opacity:1}
-.overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
-.testimonials-modal{
-  position:relative;width:100%;max-width:480px;
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--radius-lg);padding:32px;z-index:1;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-.modal-close-btn{
-  position:absolute;top:12px;right:12px;width:32px;height:32px;
-  border-radius:50%;background:var(--surface);
-  display:flex;align-items:center;justify-content:center;color:var(--text2);transition:.3s;
-}
-.modal-close-btn:hover{background:rgba(255,80,80,.15);color:#ff5050}
-.modal-img-wrapper{display:flex;align-items:center;gap:16px;margin-bottom:16px}
-.modal-avatar-box{
-  width:56px;height:56px;border-radius:50%;
-  background:var(--gradient2);display:flex;align-items:center;
-  justify-content:center;font-weight:700;font-size:.9rem;color:#fff;
-}
-.modal-title{font-size:1.1rem;font-weight:600}
-.modal-content p{font-size:.82rem;color:var(--text2);line-height:1.7;margin-top:8px}
-
-/* ===== RESUME ===== */
-.timeline{margin-bottom:28px}
-.title-wrapper{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.title-wrapper .icon-box{
-  width:34px;height:34px;border-radius:var(--radius-sm);
-  background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(6,182,212,.1));
+.case-modal{
+  position:fixed;inset:0;z-index:2000;visibility:hidden;opacity:0;transition:.3s;padding:24px;
   display:flex;align-items:center;justify-content:center;
 }
-.title-wrapper .icon-box svg{width:17px;height:17px;color:var(--accent2)}
-.title-wrapper .h3{font-size:1rem;font-weight:600}
-.timeline-list{
-  padding-left:20px;border-left:2px solid var(--border);
-  display:flex;flex-direction:column;gap:20px;
+.case-modal.active{visibility:visible;opacity:1}
+.case-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+.case-content{
+  position:relative;width:100%;max-width:720px;max-height:85vh;overflow-y:auto;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:36px;box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
-.timeline-item{padding-left:16px;position:relative}
-.timeline-item::before{
-  content:'';position:absolute;left:-25px;top:6px;width:10px;height:10px;
-  border-radius:50%;background:var(--gradient);border:2px solid var(--bg);
+.case-close{
+  position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;
+  background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--text2);transition:.3s;
 }
-.timeline-item-title{font-size:.88rem;font-weight:600;margin-bottom:2px}
-.timeline-item span{font-size:.7rem;color:var(--accent2);display:block;margin-bottom:6px;font-weight:500}
-.timeline-text{font-size:.78rem;color:var(--text2);line-height:1.6}
+.case-close:hover{background:rgba(255,80,80,.15);color:#ff5050}
+.case-content h2{font-size:1.4rem;font-weight:700;margin-bottom:16px;padding-right:32px}
+.case-content h3{font-size:.95rem;font-weight:600;margin-top:20px;margin-bottom:8px;color:var(--accent)}
+.case-content p{font-size:.85rem;color:var(--text2);line-height:1.7;margin-bottom:12px}
+.case-content .diagram{background:var(--code-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;font-family:var(--ff-mono);font-size:.72rem;line-height:1.8;margin:12px 0;overflow-x:auto}
+.case-content .diagram .arrow{color:var(--accent)}
+.case-content .diagram .box{display:inline-block;padding:4px 10px;border:1px solid var(--border-hover);border-radius:6px;margin:2px 0}
+.case-content ul{list-style:disc;padding-left:20px;font-size:.85rem;color:var(--text2);margin-bottom:12px}
+.case-content ul li{margin-bottom:4px}
 
-.skills-title{font-size:1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.skills-list{display:flex;flex-direction:column;gap:14px;padding:20px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border)}
-.skills-item .title-wrapper{display:flex;justify-content:space-between;margin-bottom:0}
-.skills-item h5{font-size:.78rem;font-weight:500}
-.skills-item data{font-size:.7rem;color:var(--accent2);font-weight:600}
-.skill-progress-bg{
-  width:100%;height:5px;background:rgba(255,255,255,.05);
-  border-radius:4px;overflow:hidden;margin-top:6px;
-}
-.skill-progress-fill{
-  height:100%;border-radius:4px;
-  background:var(--gradient);transition:width 1s cubic-bezier(.25,.46,.45,.94);
-}
+.oss-intro{font-size:.92rem;color:var(--text2);margin-bottom:24px;line-height:1.7}
+.contrib-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.contrib-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:flex-start;gap:12px;transition:.3s}
+.contrib-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.contrib-icon{width:36px;height:36px;border-radius:var(--radius-sm);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.8rem}
+.contrib-card h4{font-size:.88rem;font-weight:600;margin-bottom:2px}
+.contrib-card p{font-size:.75rem;color:var(--text2);line-height:1.5}
+.contrib-graph{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:20px}
+.contrib-graph .graph-grid{display:grid;grid-template-columns:repeat(52,1fr);gap:2px;margin-bottom:12px;justify-content:center}
+.contrib-graph .graph-cell{aspect-ratio:1;border-radius:2px;background:var(--bg3);min-width:8px}
+.contrib-graph .graph-cell.l1{background:rgba(63,185,80,.2)}
+.contrib-graph .graph-cell.l2{background:rgba(63,185,80,.4)}
+.contrib-graph .graph-cell.l3{background:rgba(63,185,80,.6)}
+.contrib-graph .graph-cell.l4{background:rgba(63,185,80,.9)}
+.contrib-graph p{font-size:.72rem;color:var(--text3);font-family:var(--ff-mono)}
 
-/* ===== PORTFOLIO ===== */
-.filter-list{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
-.filter-list button{
-  padding:6px 16px;border-radius:8px;font-size:.72rem;font-weight:500;
-  background:var(--surface);border:1px solid var(--border);color:var(--text2);transition:.3s;
-}
-.filter-list button.active,.filter-list button:hover{
-  background:var(--gradient);color:#fff;border-color:transparent;
-  box-shadow:0 4px 15px rgba(124,58,237,.25);
-}
-.project-list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.project-item{display:block;transition:.3s}
-.project-item.hidden{display:none}
-.project-card{
-  position:relative;border-radius:var(--radius);overflow:hidden;
-  background:var(--surface);border:1px solid var(--border);
-  padding:24px;text-align:center;transition:.3s;cursor:pointer;
-  min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-.project-card:hover{
-  border-color:var(--border-hover);transform:translateY(-3px);
-  box-shadow:0 12px 40px rgba(0,0,0,.4);
-}
-.project-icon{
-  font-size:2.2rem;font-weight:800;margin-bottom:8px;
-  background:var(--gradient);-webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;background-clip:text;
-}
-.project-title{font-size:.82rem;font-weight:600;margin-bottom:4px}
-.project-category{font-size:.68rem;color:var(--text2);display:inline-block;padding:2px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--border);font-weight:500}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.blog-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:.3s}
+.blog-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.blog-card .tag{font-family:var(--ff-mono);font-size:.62rem;color:var(--accent);margin-bottom:8px;display:inline-block}
+.blog-card h4{font-size:.95rem;font-weight:600;margin-bottom:8px;line-height:1.4}
+.blog-card p{font-size:.78rem;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.blog-card .meta{font-size:.68rem;color:var(--text3);display:flex;gap:12px}
 
-/* ===== CONTACT ===== */
-.mapbox{
-  height:200px;border-radius:var(--radius);overflow:hidden;
-  margin-bottom:24px;border:1px solid var(--border);
-}
-.mapbox iframe{width:100%;height:100%;border:none;filter:grayscale(1) invert(.9) hue-rotate(180deg)}
-.form-title{font-size:1rem;font-weight:600;margin-bottom:16px}
-.form{display:flex;flex-direction:column;gap:12px}
-.input-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-input{
-  padding:12px 16px;background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius-sm);color:var(--text);font-size:.82rem;transition:.3s;
-}
-.form-input:focus{border-color:var(--accent1);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
-.form-input::placeholder{color:var(--text3)}
-textarea.form-input{min-height:120px;resize:vertical}
-.form-btn{
-  padding:12px 28px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;
-  background:var(--gradient);color:#fff;display:inline-flex;align-items:center;gap:8px;
-  width:fit-content;transition:.3s;opacity:.4;cursor:default;
-}
-.form-btn.enabled{opacity:1;cursor:pointer}
-.form-btn.enabled:hover{box-shadow:0 8px 30px rgba(124,58,237,.35);transform:translateY(-1px)}
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:2px;background:var(--border)}
+.timeline-item{position:relative;padding-bottom:32px;padding-left:20px}
+.timeline-item::before{content:'';position:absolute;left:-30px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-item .company{font-size:.88rem;font-weight:600;color:var(--accent2)}
+.timeline-item .role{font-size:1rem;font-weight:600;margin:2px 0}
+.timeline-item .date{font-size:.72rem;color:var(--text3);font-family:var(--ff-mono);margin-bottom:8px}
+.timeline-item .desc{font-size:.82rem;color:var(--text2);line-height:1.6;margin-bottom:8px}
+.timeline-item .techs{display:flex;gap:6px;flex-wrap:wrap}
+.timeline-item .techs span{font-size:.62rem;padding:2px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--border);color:var(--accent2);font-family:var(--ff-mono)}
 
-/* ===== BOTTOM NAV ===== */
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:rgba(12,12,20,.85);backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--border);padding:6px 0;
-  display:none;justify-content:space-around;align-items:center;
-  height:var(--nav-h);
-}
-.bottom-nav-item{
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  background:none;color:var(--text3);padding:4px 12px;
-  border-radius:8px;transition:.3s;font-size:.6rem;font-weight:500;
-  min-width:60px;
-}
-.bottom-nav-item svg{width:20px;height:20px;transition:.3s}
-.bottom-nav-item.active{color:var(--accent2)}
-.bottom-nav-item.active svg{color:var(--accent2)}
-.bottom-nav-item:hover{color:var(--text2)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.contact-info h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.contact-info p{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:20px}
+.contact-email{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;font-size:.88rem;transition:.3s}
+.contact-email:hover{border-color:var(--accent)}
+.contact-email .label{font-size:.68rem;color:var(--text3);font-family:var(--ff-mono);margin-bottom:2px}
+.contact-email .addr{font-weight:600;color:var(--accent)}
+.contact-response{padding:12px 16px;background:var(--code-bg);border-radius:var(--radius-sm);font-family:var(--ff-mono);font-size:.75rem;color:var(--text3);border:1px solid var(--border)}
+.contact-response .green{color:var(--accent)}
+.form input,.form textarea{width:100%;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.85rem;transition:.3s;margin-bottom:12px}
+.form input:focus,.form textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(63,185,80,.1)}
+.form textarea{min-height:120px;resize:vertical}
+.form .btn-primary{width:100%;justify-content:center;padding:12px}
+.form .btn-primary:disabled{opacity:.4;cursor:default}
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:900px){
-  .sidebar{display:none}
-  .bottom-nav{display:flex}
-  .main-content{padding:20px;border-radius:var(--radius)}
-  .app{padding:12px;padding-bottom:calc(var(--nav-h) + 16px);gap:0}
-  .tab-nav{display:none}
-  .top-nav{display:flex;gap:4px;margin-bottom:24px;background:var(--surface);padding:4px;border-radius:var(--radius-sm);border:1px solid var(--border)}
-  .service-list,.project-list,.input-wrapper{grid-template-columns:1fr}
-  .testimonials-item{min-width:220px}
-  .hero-section{padding:28px 16px}
-  .hero-title{font-size:1.5rem}
-  .hero-stats{gap:20px}
-  .stat-num{font-size:1.2rem}
-  .project-list{grid-template-columns:1fr}
-  .project-card{min-height:140px;padding:18px}
-}
-@media(max-width:600px){
-  .main-content{padding:16px;border-radius:12px}
-  .app{padding:8px;padding-bottom:calc(var(--nav-h) + 12px)}
-  .hero-section{padding:24px 12px;border-radius:var(--radius)}
-  .hero-title{font-size:1.25rem}
-  .hero-sub{font-size:.82rem}
-  .hero-stats{gap:16px}
-  .stat-num{font-size:1rem}
-  .article-title{font-size:1.15rem}
-}
+.footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;font-size:.78rem;color:var(--text3)}
+.footer-code{font-family:var(--ff-mono);font-size:.68rem;margin-bottom:8px}
+.footer-code span{color:var(--accent)}
 
-/* ===== LOADING SCREEN ===== */
-.loader{
-  position:fixed;inset:0;z-index:9999;
-  background:var(--bg);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;transition:opacity .6s,visibility .6s;
+@media(max-width:1024px){
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
+  .blog-grid{grid-template-columns:1fr 1fr}
 }
-.loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.loader-logo{
-  font-size:3rem;font-weight:800;margin-bottom:16px;
-  background:var(--gradient);-webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;background-clip:text;
-  animation:loaderPulse 1.2s ease-in-out infinite;
+@media(max-width:768px){
+  .hero-name{font-size:2.2rem}
+  .hero-roles{font-size:.95rem}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .mobile-menu{display:flex}
+  .section{padding:60px 0}
+  .section-title{font-size:1.5rem}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .project-grid,.contrib-grid{grid-template-columns:1fr}
+  .blog-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:1fr 1fr}
+  .about-stats{grid-template-columns:repeat(3,1fr)}
+  .stat-num{font-size:1.3rem}
+  .case-content{padding:24px;margin:12px}
 }
-@keyframes loaderPulse{
-  0%,100%{transform:scale(1);opacity:1}
-  50%{transform:scale(1.08);opacity:.8}
-}
-.loader-bar{
-  width:200px;height:3px;background:var(--border);border-radius:4px;overflow:hidden;
-}
-.loader-bar-fill{
-  height:100%;width:0%;background:var(--gradient);
-  border-radius:4px;animation:loaderFill 1.8s ease forwards;
-}
-@keyframes loaderFill{
-  0%{width:0%}
-  100%{width:100%}
+@media(max-width:480px){
+  .hero-name{font-size:1.8rem}
+  .container{padding:0 16px}
+  .about-stats{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<div class="loader" id="loader">
-  <div class="loader-logo">CS</div>
-  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <a href="#" class="nav-logo">&gt;_ <span>codexskills</span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#oss">Open Source</a>
+      <a href="#blog">Blog</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#projects">Projects</a>
+  <a href="#oss">Open Source</a>
+  <a href="#blog">Blog</a>
+  <a href="#experience">Experience</a>
+  <a href="#contact">Contact</a>
 </div>
 
-<canvas id="particles-canvas"></canvas>
-
-<div class="app">
-
-  <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar">
-    <div class="sidebar-info">
-      <div class="avatar-box">CS</div>
-      <h1 class="name">Deepu Kumar</h1>
-      <p class="title">AI Agent Developer</p>
+<section class="hero" id="hero" aria-label="Hero introduction">
+  <div class="hero-bg"><div class="grid"></div><div class="glow"></div></div>
+  <div class="container hero-content">
+    <div class="hero-code-block">
+      <span class="comment">// initialize developer</span><br>
+      <span class="keyword">const</span> <span class="var">dev</span> = <span class="keyword">new</span> <span class="fn">Developer</span>({<br>
+      &nbsp;&nbsp;handle: <span class="str">"codexskills"</span>,<br>
+      &nbsp;&nbsp;role: <span class="str">"AI Agent Developer"</span>,<br>
+      &nbsp;&nbsp;mission: <span class="str">"Turn complex into simple"</span><br>
+      });
     </div>
-    <div class="separator"></div>
-    <ul class="contacts-list">
-      <li class="contact-item">
-        <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-        <div><p class="contact-title">Email</p><a href="mailto:codexskills@github.com" class="contact-link">codexskills@github.com</a></div>
-      </li>
-      <li class="contact-item">
-        <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div><p class="contact-title">Location</p><address class="contact-link">India</address></div>
-      </li>
-      <li class="contact-item">
-        <div class="icon-box"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></div>
-        <div><p class="contact-title">GitHub</p><a href="https://github.com/codexskills" class="contact-link">@codexskills</a></div>
-      </li>
-      <li class="contact-item">
-        <div class="icon-box"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
-        <div><p class="contact-title">Telegram</p><a href="https://t.me/REXXT_H4RE" class="contact-link">@REXXT_H4RE</a></div>
-      </li>
-    </ul>
-    <div class="separator"></div>
-    <ul class="social-list">
-      <li><a href="https://github.com/codexskills" target="_blank" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></a></li>
-      <li><a href="https://t.me/REXXT_H4RE" target="_blank" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a></li>
-    </ul>
-  </aside>
+    <p class="hero-greeting">Hi, I'm</p>
+    <h1 class="hero-name"><span class="highlight">codexskills</span></h1>
+    <p class="hero-roles" id="roles" aria-live="polite">
+      <span id="roleText">Full-Stack Developer</span><span class="cursor-blink">|</span>
+    </p>
+    <p class="hero-desc">
+      I build production-grade AI agent skills, project blueprints, and developer tools
+      for OpenCode, Claude Code, and Cursor. Every project is MIT-licensed and built for the community.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        View Projects
+      </a>
+      <a href="#" class="btn btn-secondary" onclick="alert('Resume PDF download')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Resume
+      </a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://github.com/codexskills" target="_blank" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="https://t.me/REXXT_H4RE" target="_blank" aria-label="Telegram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      </a>
+      <a href="mailto:codexskills@github.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
 
-  <!-- ===== MAIN ===== -->
-  <div class="main-content">
-
-    <!-- ===== TAB NAV ===== -->
-    <nav class="tab-nav">
-      <button class="tab-link active" data-page="about">About</button>
-      <button class="tab-link" data-page="resume">Resume</button>
-      <button class="tab-link" data-page="portfolio">Portfolio</button>
-      <button class="tab-link" data-page="contact">Contact</button>
-    </nav>
-
-    <!-- ===== ABOUT ===== -->
-    <article class="active" data-page="about">
-      <section class="hero-section reveal">
-        <p class="hero-greeting">Hello, I'm</p>
-        <h1 class="hero-title" id="typewriter">AI Agent Developer &amp; Open Source Builder</h1>
-        <p class="hero-sub">I create production-grade AI agent skills for OpenCode, Claude Code, Codex, and Cursor. Turning complex problems into simple, scalable solutions.</p>
-        <div class="hero-stats">
-          <div class="stat-item"><div class="stat-num">40+</div><div class="stat-label">Projects</div></div>
-          <div class="stat-item"><div class="stat-num">23</div><div class="stat-label">Agent Skills</div></div>
-          <div class="stat-item"><div class="stat-num">2</div><div class="stat-label">Flagship Tools</div></div>
-        </div>
-      </section>
-
-      <section class="reveal" style="transition-delay:.1s">
-        <h2 class="article-title">About me</h2>
+<section class="section" id="about" aria-label="About me">
+  <div class="container">
+    <p class="section-label">// about.js</p>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div>
         <div class="about-text">
           <p>I'm an AI Agent Developer and Open Source Builder creating production-grade agent skills for OpenCode, Claude Code, Codex, and Cursor. I turn complex problems into simple, scalable solutions.</p>
           <p>My flagship projects — StackForge and Agent Forge — help developers generate complete project blueprints and lifecycle skills from a single sentence. Every project is MIT licensed, open source, and built for the developer community.</p>
         </div>
-      </section>
-
-      <section class="reveal" style="transition-delay:.2s">
-        <h3 class="service-title">What I'm doing</h3>
-        <ul class="service-list">
-          <li class="service-item">
-            <div class="service-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-            <div><h4 class="service-item-title">AI Agent Development</h4><p class="service-item-text">SKILL.md-based agents for OpenCode, Claude Code, Codex, and Cursor.</p></div>
-          </li>
-          <li class="service-item">
-            <div class="service-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-            <div><h4 class="service-item-title">Project Blueprinting</h4><p class="service-item-text">Complete blueprints with tech stack, architecture, database, and roadmap.</p></div>
-          </li>
-          <li class="service-item">
-            <div class="service-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-            <div><h4 class="service-item-title">Automation Engineering</h4><p class="service-item-text">CI/CD pipelines, scaffolding, deployment systems, and intelligent tooling.</p></div>
-          </li>
-          <li class="service-item">
-            <div class="service-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-            <div><h4 class="service-item-title">Open Source</h4><p class="service-item-text">MIT-licensed tools for the developer community. Transparent and free.</p></div>
-          </li>
-        </ul>
-      </section>
-
-      <section class="reveal" style="transition-delay:.3s">
-        <h3 class="testimonials-title">Testimonials</h3>
-        <ul class="testimonials-list">
-          <li class="testimonials-item">
-            <div class="content-card" data-testimonials-item>
-              <div class="testimonials-avatar-box">AK</div>
-              <h4 class="testimonials-item-title" data-testimonials-title>Arun K.</h4>
-              <div class="testimonials-text" data-testimonials-text><p>StackForge changed how I start projects. I describe my idea and get a complete blueprint. Like having a senior architect on demand.</p></div>
-            </div>
-          </li>
-          <li class="testimonials-item">
-            <div class="content-card" data-testimonials-item>
-              <div class="testimonials-avatar-box">SP</div>
-              <h4 class="testimonials-item-title" data-testimonials-title>Shreya P.</h4>
-              <div class="testimonials-text" data-testimonials-text><p>The database schemas with proper indexes, deployment commands that work, and cost breakdowns that help with client proposals.</p></div>
-            </div>
-          </li>
-          <li class="testimonials-item">
-            <div class="content-card" data-testimonials-item>
-              <div class="testimonials-avatar-box">RM</div>
-              <h4 class="testimonials-item-title" data-testimonials-title>Rahul M.</h4>
-              <div class="testimonials-text" data-testimonials-text><p>I use StackForge daily with Claude Code. Saves hours of planning. The architecture and testing strategy sections alone are worth it.</p></div>
-            </div>
-          </li>
-          <li class="testimonials-item">
-            <div class="content-card" data-testimonials-item>
-              <div class="testimonials-avatar-box">NJ</div>
-              <h4 class="testimonials-item-title" data-testimonials-title>Neha J.</h4>
-              <div class="testimonials-text" data-testimonials-text><p>The risk mitigation and cost breakdown sections show real-world experience. Best AI agent skill I have used.</p></div>
-            </div>
-          </li>
-        </ul>
-      </section>
-    </article>
-
-    <!-- ===== RESUME ===== -->
-    <article data-page="resume">
-      <h2 class="article-title reveal">Resume</h2>
-
-      <section class="timeline reveal" style="transition-delay:.1s">
-        <div class="title-wrapper">
-          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
-          <h3 class="h3">Projects</h3>
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Repositories</div></div>
+          <div class="stat-card"><div class="stat-num">23</div><div class="stat-label">Agent Skills</div></div>
+          <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Flagship Tools</div></div>
         </div>
-        <ol class="timeline-list">
-          <li class="timeline-item">
-            <h4 class="timeline-item-title">Agent Forge</h4>
-            <span>2026 — Present</span>
-            <p class="timeline-text">Production-grade AI agent skills — 23 lifecycle skills covering Define, Plan, Build, Verify, Review, Ship. Enhanced alternative to addyosmani/agent-skills.</p>
-          </li>
-          <li class="timeline-item">
-            <h4 class="timeline-item-title">StackForge</h4>
-            <span>2026 — Present</span>
-            <p class="timeline-text">AI project blueprint generator. 9 project types, 10 blueprint sections. Single sentence to production-ready plan.</p>
-          </li>
-          <li class="timeline-item">
-            <h4 class="timeline-item-title">codexskills.github.io</h4>
-            <span>2026</span>
-            <p class="timeline-text">Personal portfolio, developer tools, and open source showcase.</p>
-          </li>
-        </ol>
-      </section>
-
-      <section class="timeline reveal" style="transition-delay:.2s">
-        <div class="title-wrapper">
-          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-          <h3 class="h3">Experience</h3>
-        </div>
-        <ol class="timeline-list">
-          <li class="timeline-item">
-            <h4 class="timeline-item-title">AI Agent Developer</h4>
-            <span>2026 — Present</span>
-            <p class="timeline-text">Building AI agent skills (SKILL.md) for OpenCode, Claude Code, Codex, and Cursor. Specializing in project blueprinting and lifecycle automation.</p>
-          </li>
-          <li class="timeline-item">
-            <h4 class="timeline-item-title">Open Source Maintainer</h4>
-            <span>2026 — Present</span>
-            <p class="timeline-text">Maintaining MIT-licensed developer tools, automation scripts, and AI agent frameworks for the developer community.</p>
-          </li>
-        </ol>
-      </section>
-
-      <section class="reveal" style="transition-delay:.3s">
-        <h3 class="skills-title">My Skills</h3>
-        <ul class="skills-list">
-          <li class="skills-item">
-            <div class="title-wrapper"><h5>AI Agent Development</h5><data data-value="95">95%</data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:95%"></div></div>
-          </li>
-          <li class="skills-item">
-            <div class="title-wrapper"><h5>Python / Node.js</h5><data data-value="90">90%</data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%"></div></div>
-          </li>
-          <li class="skills-item">
-            <div class="title-wrapper"><h5>SKILL.md Engineering</h5><data data-value="95">95%</data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:95%"></div></div>
-          </li>
-          <li class="skills-item">
-            <div class="title-wrapper"><h5>Git / GitHub</h5><data data-value="90">90%</data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%"></div></div>
-          </li>
-          <li class="skills-item">
-            <div class="title-wrapper"><h5>Full-Stack Development</h5><data data-value="80">80%</data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:80%"></div></div>
-          </li>
-          <li class="skills-item">
-            <div class="title-wrapper"><h5>CI/CD & Automation</h5><data data-value="85">85%</data></div>
-            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:85%"></div></div>
-          </li>
-        </ul>
-      </section>
-    </article>
-
-    <!-- ===== PORTFOLIO ===== -->
-    <article data-page="portfolio">
-      <h2 class="article-title reveal">Portfolio</h2>
-      <section class="projects reveal" style="transition-delay:.1s">
-        <ul class="filter-list">
-          <li><button class="active" data-filter="all">All</button></li>
-          <li><button data-filter="skills">Skills</button></li>
-          <li><button data-filter="tools">Tools</button></li>
-          <li><button data-filter="web">Web</button></li>
-        </ul>
-        <ul class="project-list">
-          <li class="project-item" data-category="skills">
-            <a href="https://github.com/codexskills/agent-forge" target="_blank">
-              <div class="project-card">
-                <div class="project-icon">AF</div>
-                <h3 class="project-title">Agent Forge</h3>
-                <span class="project-category">Skills</span>
-              </div>
-            </a>
-          </li>
-          <li class="project-item" data-category="tools">
-            <a href="https://github.com/codexskills/skill-builder" target="_blank">
-              <div class="project-card">
-                <div class="project-icon">SF</div>
-                <h3 class="project-title">StackForge</h3>
-                <span class="project-category">Tools</span>
-              </div>
-            </a>
-          </li>
-          <li class="project-item" data-category="web">
-            <a href="https://github.com/codexskills/codexskills.github.io" target="_blank">
-              <div class="project-card">
-                <div class="project-icon">CS</div>
-                <h3 class="project-title">codexskills.github.io</h3>
-                <span class="project-category">Web</span>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </section>
-    </article>
-
-    <!-- ===== CONTACT ===== -->
-    <article data-page="contact">
-      <h2 class="article-title reveal">Contact</h2>
-      <section class="mapbox reveal" style="transition-delay:.1s">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56049.22466821653!2d77.2088!3d28.6139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2e4d8c1c2d1%3A0x5e5f5e5f5e5f5e5f!2sIndia!5e0!3m2!1sen!2s!4v1" loading="lazy"></iframe>
-      </section>
-      <section class="contact-form reveal" style="transition-delay:.2s">
-        <h3 class="form-title">Send a Message</h3>
-        <form class="form" data-form>
-          <div class="input-wrapper">
-            <input type="text" class="form-input" placeholder="Full name" required data-form-input>
-            <input type="email" class="form-input" placeholder="Email address" required data-form-input>
-          </div>
-          <textarea class="form-input" placeholder="Your Message" required data-form-input></textarea>
-          <button class="form-btn" type="submit" disabled data-form-btn>Send Message</button>
-        </form>
-      </section>
-    </article>
-
+      </div>
+      <div class="about-code">
+        <span class="line-num">1</span> <span class="key">"about"</span>: {<br>
+        <span class="line-num">2</span> &nbsp;&nbsp;<span class="key">"handle"</span>: <span class="str">"codexskills"</span>,<br>
+        <span class="line-num">3</span> &nbsp;&nbsp;<span class="key">"role"</span>: <span class="str">"AI Agent Developer"</span>,<br>
+        <span class="line-num">4</span> &nbsp;&nbsp;<span class="key">"status"</span>: <span class="str2">"Open Source"</span>,<br>
+        <span class="line-num">5</span> &nbsp;&nbsp;<span class="key">"mission"</span>: <span class="str">"Turn complex into simple"</span>,<br>
+        <span class="line-num">6</span> &nbsp;&nbsp;<span class="key">"funFact"</span>: <span class="str">"I make tools that make tools"</span>,<br>
+        <span class="line-num">7</span> &nbsp;&nbsp;<span class="key">"availableForHire"</span>: <span class="bool">true</span><br>
+        <span class="line-num">8</span> }
+      </div>
+    </div>
   </div>
+</section>
 
-</div>
-
-<!-- ===== MODAL ===== -->
-<div class="modal-container" data-modal-container>
-  <div class="overlay" data-overlay></div>
-  <section class="testimonials-modal">
-    <button class="modal-close-btn" data-modal-close-btn><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div class="modal-img-wrapper">
-      <div class="modal-avatar-box" data-modal-img></div>
+<section class="section" id="skills" aria-label="Skills">
+  <div class="container">
+    <p class="section-label">// skills.js</p>
+    <h2 class="section-title">Skills & Technologies</h2>
+    <p class="section-sub">The tools and technologies I use to build production-grade software.</p>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <div class="skill-cat-title">Languages</div>
+        <div class="skill-items">
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm8 5.5c0-.83-.67-1.5-1.5-1.5h-2.5v7h1.5v-3h1l1.5 3h1.5l-1.5-3c.83 0 1.5-.67 1.5-1.5v-1.5zm4 0c0-.83-.67-1.5-1.5-1.5h-2.5v7h1.5V9h1l1.5 3h1.5l-1.5-3c.83 0 1.5-.67 1.5-1.5v-1.5z"/></svg>TypeScript</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9 2.2 6.98 2.32-7.15 2.27-2.35 6-2.35-6-7.15-2.27 6.98-2.32.9-2.2C11.37-.06 12.63-.06 14.25.18zM8.3 4.26l-4.5 7.46c.78 2.2 2.36 4.07 4.5 5.25l4.5-7.46-4.5-5.25zm7.4 0l4.5 5.25-4.5 7.46c2.14-1.18 3.72-3.05 4.5-5.25l-4.5-7.46zM10.5 18.5v3.5c1.16.24 2.34.24 3.5 0v-3.5c-1.16.24-2.34.24-3.5 0z"/></svg>Python</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Go</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.5 6 2s-2.13 2-6 2-6-1.5-6-2 2.13-2 6-2zM6 17v-2.42c1.23.9 3.28 1.42 6 1.42s4.77-.52 6-1.42V17c0 .5-2.13 2-6 2s-6-1.5-6-2zm0-5v-2.42c1.23.9 3.28 1.42 6 1.42s4.77-.52 6-1.42V12c0 .5-2.13 2-6 2s-6-1.5-6-2z"/></svg>SQL</div>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Frontend</div>
+        <div class="skill-items">
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>React / Next.js</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>HTML / CSS</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Tailwind CSS</div>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Backend</div>
+        <div class="skill-items">
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Node.js / Express</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Python / FastAPI</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Shell / Bash</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Git / GitHub</div>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">DevOps</div>
+        <div class="skill-items">
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Docker</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>GitHub Actions</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>GitHub Pages</div>
+          <div class="skill-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Vercel / Netlify</div>
+        </div>
+      </div>
     </div>
-    <div class="modal-content">
-      <h4 class="modal-title" data-modal-title></h4>
-      <div data-modal-text></div>
-    </div>
-  </section>
-</div>
+  </div>
+</section>
 
-<!-- ===== BOTTOM NAV ===== -->
-<nav class="bottom-nav" id="bottomNav">
-  <button class="bottom-nav-item active" data-page="about">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>About</span>
-  </button>
-  <button class="bottom-nav-item" data-page="resume">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-    <span>Resume</span>
-  </button>
-  <button class="bottom-nav-item" data-page="portfolio">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-    <span>Portfolio</span>
-  </button>
-  <button class="bottom-nav-item" data-page="contact">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-    <span>Contact</span>
-  </button>
-</nav>
+<section class="section" id="projects" aria-label="Projects">
+  <div class="container">
+    <p class="section-label">// projects.js</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub">All my open source repositories — tools, skills, and frameworks for the developer community.</p>
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-img"><div class="placeholder-icon">AF</div><div class="overlay"></div></div>
+        <div class="project-body">
+          <h3>Agent Forge</h3>
+          <p class="desc">Production-grade AI agent skills — enhanced alternative to addyosmani/agent-skills. 23 lifecycle skills for Define, Plan, Build, Verify, Review, Ship. Works with OpenCode, Claude Code, Codex, Cursor, Gemini CLI.</p>
+          <p class="outcome">40 files, 8,195 lines — 3 specialist personas, 7 slash commands, 4 checklists.</p>
+          <div class="project-tags"><span>SKILL.md</span><span>Agents</span><span>CLI</span><span>Automation</span></div>
+          <div class="project-links">
+            <a href="#" onclick="openCaseStudy('agentforge');return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Case Study</a>
+            <a href="https://github.com/codexskills/agent-forge" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+            <a href="https://github.com/codexskills/agent-forge/stargazers"><span class="star">★ 1</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-img"><div class="placeholder-icon">SB</div><div class="overlay"></div></div>
+        <div class="project-body">
+          <h3>skill-builder (StackForge)</h3>
+          <p class="desc">StackForge by Codex Skiller — OpenCode AI agent skill for project blueprint generation. Website, Telegram bot, AI agent, API, mobile app, CLI tool builder. 9 project types, 10 blueprint sections.</p>
+          <p class="outcome">Single sentence to production-ready plan with architecture, database, deployment, and cost breakdown.</p>
+          <div class="project-tags"><span>SKILL.md</span><span>Python</span><span>Node.js</span><span>CLI</span></div>
+          <div class="project-links">
+            <a href="#" onclick="openCaseStudy('stackforge');return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Case Study</a>
+            <a href="https://github.com/codexskills/skill-builder" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+            <a href="https://github.com/codexskills/skill-builder/stargazers"><span class="star">★ 1</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-img"><div class="placeholder-icon">CS</div><div class="overlay"></div></div>
+        <div class="project-body">
+          <h3>codexskills.github.io</h3>
+          <p class="desc">Codex Skiller — StackForge: AI agent skill for project blueprint generation. Portfolio & project showcase. Live at codexskills.github.io.</p>
+          <p class="outcome">Personal portfolio — 4 complete redesigns, mobile-first, single-file architecture, deployed on GitHub Pages.</p>
+          <div class="project-tags"><span>HTML/CSS</span><span>Vanilla JS</span><span>Responsive</span><span>GitHub Pages</span></div>
+          <div class="project-links">
+            <a href="#" onclick="openCaseStudy('portfolio');return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Case Study</a>
+            <a href="https://github.com/codexskills/codexskills.github.io" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+            <a href="https://codexskills.github.io" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Live Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-img"><div class="placeholder-icon">CX</div><div class="overlay"></div></div>
+        <div class="project-body">
+          <h3>codexskills (profile repo)</h3>
+          <p class="desc">Codex Skiller — AI agent skill builder. StackForge project blueprint generator. GitHub profile README and organization hub for all open source projects.</p>
+          <p class="outcome">Central hub for the Codex Skiller ecosystem — agent skills, blueprints, and developer tools.</p>
+          <div class="project-tags"><span>Profile</span><span>Docs</span><span>Open Source</span></div>
+          <div class="project-links">
+            <a href="https://github.com/codexskills/codexskills" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="oss" aria-label="Open Source">
+  <div class="container">
+    <p class="section-label">// opensource.js</p>
+    <h2 class="section-title">Open Source</h2>
+    <p class="oss-intro">I believe in building in the open. Every project is MIT-licensed, well-documented, and designed to help the developer community ship faster.</p>
+    <div class="contrib-grid">
+      <div class="contrib-card"><div class="contrib-icon" style="color:var(--accent)">AF</div><div><h4>Agent Forge</h4><p>23 production-grade AI agent skills — enhanced alternative to addyosmani/agent-skills. Works across OpenCode, Claude Code, Codex, and Gemini CLI.</p></div></div>
+      <div class="contrib-card"><div class="contrib-icon" style="color:var(--accent2)">SB</div><div><h4>skill-builder</h4><p>StackForge — AI project blueprint generator. 9 project types, 10 blueprint sections from a single sentence. OpenCode agent skill.</p></div></div>
+      <div class="contrib-card"><div class="contrib-icon" style="color:var(--orange)">CS</div><div><h4>codexskills.github.io</h4><p>Personal portfolio & project showcase. Single-file HTML/CSS/JS architecture with 4 complete design iterations. Mobile-first, accessible.</p></div></div>
+      <div class="contrib-card"><div class="contrib-icon" style="color:var(--pink)">CX</div><div><h4>codexskills (profile)</h4><p>GitHub profile README and central hub for all open source projects in the Codex Skiller ecosystem.</p></div></div>
+    </div>
+    <div class="contrib-graph">
+      <div class="graph-grid" id="graphGrid"></div>
+      <p>Active contributions across 4 repositories</p>
+    </div>
+    <a href="https://github.com/codexskills" target="_blank" class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>View Full GitHub Profile</a>
+  </div>
+</section>
+
+<section class="section" id="blog" aria-label="Blog">
+  <div class="container">
+    <p class="section-label">// writing.js</p>
+    <h2 class="section-title">Latest Writing</h2>
+    <p class="section-sub">Thoughts on AI agents, developer tools, and shipping production software.</p>
+    <div class="blog-grid">
+      <div class="blog-card"><span class="tag">Tutorial</span><h4>Building Your First SKILL.md: A Complete Guide</h4><p>Learn how to create production-grade AI agent skills for OpenCode and Claude Code with proper structure, testing, and deployment.</p><div class="meta"><span>Mar 2026</span><span>·</span><span>8 min</span></div></div>
+      <div class="blog-card"><span class="tag">Architecture</span><h4>Why I Built Agent Forge Instead of Using Agent Skills</h4><p>The architectural decisions, tradeoffs, and design philosophy behind creating a 23-skill lifecycle framework from scratch.</p><div class="meta"><span>Feb 2026</span><span>·</span><span>12 min</span></div></div>
+      <div class="blog-card"><span class="tag">Opinion</span><h4>Production Blueprinting: From Single Sentence to Full Architecture</h4><p>How StackForge generates complete project blueprints and why specification-driven development is the future of AI-assisted coding.</p><div class="meta"><span>Jan 2026</span><span>·</span><span>6 min</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="experience" aria-label="Experience">
+  <div class="container">
+    <p class="section-label">// experience.js</p>
+    <h2 class="section-title">Experience</h2>
+    <p class="section-sub">My journey building developer tools and AI agent systems.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="company">codexskills (GitHub)</div>
+        <div class="role">AI Agent Developer & Open Source Maintainer</div>
+        <div class="date">2026 — Present</div>
+        <p class="desc">Building production-grade AI agent skills (SKILL.md) for OpenCode, Claude Code, Codex, and Cursor. Maintaining MIT-licensed developer tools including StackForge (skill-builder) and Agent Forge (agent-forge). Specializing in project blueprinting and lifecycle automation.</p>
+        <div class="techs"><span>SKILL.md</span><span>Python</span><span>Node.js</span><span>Git</span><span>CI/CD</span><span>Shell</span></div>
+      </div>
+      <div class="timeline-item">
+        <div class="company">Open Source Community</div>
+        <div class="role">Tooling & Automation Engineer</div>
+        <div class="date">2025 — 2026</div>
+        <p class="desc">Contributing scaffolding scripts, deployment configs, and automation templates to the developer ecosystem. Building CLI tools for project generation and workflow automation.</p>
+        <div class="techs"><span>Python</span><span>Bash</span><span>Docker</span><span>GitHub Actions</span><span>CLI</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact" aria-label="Contact">
+  <div class="container">
+    <p class="section-label">// contact.js</p>
+    <h2 class="section-title">Let's Work Together</h2>
+    <p class="section-sub">Interested in collaborating on AI agent tools, project blueprinting, or open source? I'm available for freelance, consulting, and full-time opportunities.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Get in touch</h3>
+        <p>I typically respond within 24 hours. Whether you have a project idea, want to contribute, or just want to say hi — I'd love to hear from you.</p>
+        <div class="contact-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;flex-shrink:0;color:var(--accent)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <div><div class="label">Email</div><div class="addr">codexskills@github.com</div></div>
+        </div>
+        <div class="contact-response"><span class="green">$</span> curl -X POST /contact \<br>&nbsp;&nbsp;<span class="green">--data</span> '{"message": "Let's build something"}'<br><span class="green">$</span> Response: <span style="color:var(--accent2)">"I'll reply within 24h"</span></div>
+      </div>
+      <form class="form" id="contactForm">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <input type="text" placeholder="Subject">
+        <textarea placeholder="Tell me about your project..." required></textarea>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p class="footer-code"><span>&gt;</span> Built by codexskills <span>// MIT Licensed</span></p>
+    <p>&copy; 2026 codexskills. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="case-modal" id="caseModal">
+  <div class="overlay" onclick="closeCaseStudy()"></div>
+  <div class="case-content" id="caseContent">
+    <button class="case-close" onclick="closeCaseStudy()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div id="caseBody"></div>
+  </div>
+</div>
 
 <script>
-// ===== LOADER =====
-setTimeout(function() {
-  document.getElementById('loader').classList.add('hidden');
-}, 1900);
-
-// ===== PARTICLES =====
 (function() {
-  var c = document.getElementById('particles-canvas');
-  var ctx = c.getContext('2d');
-  var particles = [];
-  var mouse = {x:null,y:null};
-  var count = 80;
-
-  function resize() {
-    c.width = window.innerWidth;
-    c.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (var i = 0; i < count; i++) {
-    particles.push({
-      x: Math.random() * c.width,
-      y: Math.random() * c.height,
-      vx: (Math.random() - .5) * .4,
-      vy: (Math.random() - .5) * .4,
-      r: Math.random() * 2 + .5
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, c.width, c.height);
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > c.width) p.vx *= -1;
-      if (p.y < 0 || p.y > c.height) p.vy *= -1;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(124,58,237,.4)';
-      ctx.fill();
-
-      for (var j = i + 1; j < particles.length; j++) {
-        var p2 = particles[j];
-        var dx = p.x - p2.x;
-        var dy = p.y - p2.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = 'rgba(124,58,237,' + (1 - dist / 150) * .15 + ')';
-          ctx.lineWidth = .5;
-          ctx.stroke();
-        }
-      }
-
-      if (mouse.x !== null) {
-        var dx = p.x - mouse.x;
-        var dy = p.y - mouse.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = 'rgba(6,182,212,' + (1 - dist / 120) * .3 + ')';
-          ctx.lineWidth = .5;
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-
-  document.addEventListener('mousemove', function(e) {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  });
-  document.addEventListener('mouseleave', function() {
-    mouse.x = null;
-    mouse.y = null;
-  });
-})();
-
-// ===== TAB SWITCHING =====
-(function() {
-  var tabs = document.querySelectorAll('[data-page]');
-  var articles = {};
-  var currentPage = 'about';
-
-  tabs.forEach(function(t) {
-    var page = t.getAttribute('data-page');
-    articles[page] = document.querySelector('[data-page="' + page + '"]');
-    t.addEventListener('click', function() {
-      switchPage(page);
-    });
-  });
-
-  function switchPage(page) {
-    if (page === currentPage) return;
-    currentPage = page;
-    tabs.forEach(function(t) {
-      t.classList.toggle('active', t.getAttribute('data-page') === page);
-    });
-    Object.keys(articles).forEach(function(k) {
-      articles[k].classList.toggle('active', k === page);
-    });
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-})();
-
-// ===== TESTIMONIAL MODAL =====
-(function() {
-  var modal = document.querySelector('[data-modal-container]');
-  var overlay = document.querySelector('[data-overlay]');
-  var closeBtn = document.querySelector('[data-modal-close-btn]');
-  var modalTitle = document.querySelector('[data-modal-title]');
-  var modalText = document.querySelector('[data-modal-text]');
-  var modalImg = document.querySelector('[data-modal-img]');
-  var cards = document.querySelectorAll('[data-testimonials-item]');
-
-  function openModal(title, text, avatar) {
-    modalTitle.textContent = title;
-    modalText.innerHTML = text;
-    modalImg.textContent = avatar;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModalFn() {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  cards.forEach(function(card) {
-    card.addEventListener('click', function() {
-      var title = this.querySelector('[data-testimonials-title]').textContent;
-      var text = this.querySelector('[data-testimonials-text]').innerHTML;
-      var avatar = this.querySelector('.testimonials-avatar-box').textContent;
-      openModal(title, text, avatar);
-    });
-  });
-
-  closeBtn.addEventListener('click', closeModalFn);
-  overlay.addEventListener('click', closeModalFn);
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModalFn();
-  });
-})();
-
-// ===== PORTFOLIO FILTER =====
-(function() {
-  var filters = document.querySelectorAll('[data-filter]');
-  var projects = document.querySelectorAll('[data-category]');
-
-  filters.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      filters.forEach(function(b) { b.classList.remove('active'); });
-      this.classList.add('active');
-      var cat = this.getAttribute('data-filter');
-      projects.forEach(function(p) {
-        if (cat === 'all' || p.getAttribute('data-category') === cat) {
-          p.classList.remove('hidden');
-        } else {
-          p.classList.add('hidden');
-        }
-      });
-    });
-  });
-})();
-
-// ===== CONTACT FORM =====
-(function() {
-  var inputs = document.querySelectorAll('[data-form-input]');
-  var btn = document.querySelector('[data-form-btn]');
-  var form = document.querySelector('[data-form]');
-
-  function checkForm() {
-    var filled = true;
-    inputs.forEach(function(inp) {
-      if (!inp.value.trim()) filled = false;
-    });
-    if (filled) {
-      btn.classList.add('enabled');
-      btn.removeAttribute('disabled');
+  var roles = ["Full-Stack Developer","Open Source Contributor","AI Agent Builder","Tool Maker"];
+  var el = document.getElementById('roleText');
+  var roleIndex = 0, charIndex = 0, isDeleting = false;
+  function type() {
+    var current = roles[roleIndex];
+    if (isDeleting) {
+      el.textContent = current.substring(0, charIndex--);
+      if (charIndex < 0) { isDeleting = false; roleIndex = (roleIndex + 1) % roles.length; setTimeout(type, 300); return; }
+      setTimeout(type, 40);
     } else {
-      btn.classList.remove('enabled');
-      btn.setAttribute('disabled', '');
+      el.textContent = current.substring(0, charIndex++);
+      if (charIndex > current.length) { isDeleting = true; setTimeout(type, 1500); return; }
+      setTimeout(type, 80);
     }
   }
-
-  inputs.forEach(function(inp) {
-    inp.addEventListener('input', checkForm);
-  });
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (btn.hasAttribute('disabled')) return;
-    btn.textContent = 'Sent!';
-    btn.style.background = '#10b981';
-    setTimeout(function() {
-      btn.textContent = 'Send Message';
-      btn.style.background = '';
-      form.reset();
-      checkForm();
-    }, 2000);
-  });
+  type();
 })();
 
-// ===== REVEAL ON SCROLL =====
 (function() {
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {threshold:0.1});
+  var h = document.getElementById('hamburger'), m = document.getElementById('mobileMenu');
+  h.addEventListener('click', function() { m.classList.toggle('open'); });
+  m.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { m.classList.remove('open'); }); });
+})();
 
-  document.querySelectorAll('.reveal').forEach(function(el) {
-    observer.observe(el);
+(function() {
+  var grid = document.getElementById('graphGrid'), levels = ['','l1','l2','l3','l4'];
+  for (var i = 0; i < 364; i++) { var c = document.createElement('div'); c.className = 'graph-cell ' + levels[Math.floor(Math.random()*5)]; grid.appendChild(c); }
+})();
+
+var caseStudies = {
+  agentforge: {
+    title: 'Agent Forge — Production-Grade AI Agent Skills',
+    content: '<h3>Problem & User Context</h3><p>Existing agent skill repositories provide basic patterns but lack production-depth: no specialist personas, no slash commands, no testing frameworks, and no multi-platform setup guides.</p><h3>Solution</h3><p>Agent Forge delivers 23 production-grade AI agent skills organized in a Define->Plan->Build->Verify->Review->Ship lifecycle. Includes 3 specialist personas (code-reviewer, security-auditor, test-engineer), 7 slash commands, 4 reference checklists, and multi-platform setup.</p><h3>Architecture</h3><div class="diagram"><span class="box">Skills/</span> <span class="arrow">-></span> 23 lifecycle skills<br><span class="box">Agents/</span> <span class="arrow">-></span> 3 specialist personas<br><span class="box">References/</span> <span class="arrow">-></span> 4 checklists<br><span class="box">.claude/commands/</span> <span class="arrow">-></span> 7 slash commands<br><span class="box">docs/</span> <span class="arrow">-></span> Setup guide + skill anatomy</div><h3>Results</h3><ul><li>40 files, 8,195 lines of production code</li><li>20 SEO-optimized topic tags</li><li>Works with OpenCode, Claude Code, Codex, Cursor, Gemini CLI</li><li>Standalone repo with MIT license</li></ul><h3>Tradeoffs</h3><p>Chose breadth (23 skills) over depth per skill. Some skills are templates rather than fully-implemented examples, but the coverage is comprehensive across the entire development lifecycle.</p>'
+  },
+  stackforge: {
+    title: 'skill-builder (StackForge) — AI Project Blueprint Generator',
+    content: '<h3>Problem & User Context</h3><p>Developers spend hours setting up project structure, choosing technology stacks, designing database schemas, and planning deployment. Most scaffolding tools generate boilerplate without architectural guidance.</p><h3>Solution</h3><p>StackForge takes a single sentence description and generates a complete production-ready blueprint: tech stack, architecture diagrams, database schemas with indexes, API routes, deployment configs, cost breakdowns, and risk mitigation.</p><h3>Architecture</h3><div class="diagram"><span class="box">User Input</span> <span class="arrow">-></span> <span class="box">AI Parser</span> <span class="arrow">-></span> <span class="box" style="border-color:var(--accent)">Blueprint Engine</span> <span class="arrow">-></span> <span class="box">Output</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;darr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="box">9 Project Types</span> <span class="arrow">-></span> <span class="box">10 Sections</span></div><h3>Results</h3><ul><li>OpenCode agent skill for project blueprint generation</li><li>9 project types supported</li><li>10 blueprint sections per project</li><li>Single sentence to production-ready plan</li></ul><h3>Tradeoffs</h3><p>Chose SKILL.md format over standalone CLI for deeper agent integration. Tradeoff: requires agent runtime but enables richer contextual generation.</p>'
+  },
+  portfolio: {
+    title: 'codexskills.github.io — Developer Portfolio & Showcase',
+    content: '<h3>Problem & User Context</h3><p>Needed a personal portfolio demonstrating both design capability and technical depth. Must showcase AI agent skills, open source projects, and developer tools in a compelling, mobile-friendly way.</p><h3>Solution</h3><p>Four complete redesigns: terminal aesthetic, futuristic gate-loading, glassmorphism with particles, and this production vcard-style layout. Each iteration improved mobile responsiveness and visual polish.</p><h3>Architecture</h3><div class="diagram"><span class="box">index.html</span> <span class="arrow">-></span> Single-file SPA<br>&nbsp;&nbsp;|-- <span class="box">CSS</span> -- Custom properties, responsive, code theme<br>&nbsp;&nbsp;|-- <span class="box">JS</span> -- Typing effect, tabs, modals, form, graph<br>&nbsp;&nbsp;|-- <span class="box">Deploy</span> -- GitHub Pages (user site, auto-deploy)</div><h3>Results</h3><ul><li>Live at codexskills.github.io</li><li>Mobile-first responsive design</li><li>Hamburger menu, typing effect, contribution graph</li><li>Case study modal for each project</li></ul><h3>Lessons</h3><p>Single-file architecture keeps deployment simple but limits code organization. Future iterations may adopt component-based approach with build step for better maintainability.</p>'
+  }
+};
+
+function openCaseStudy(id) {
+  var s = caseStudies[id]; if (!s) return;
+  document.getElementById('caseBody').innerHTML = '<h2>' + s.title + '</h2>' + s.content;
+  document.getElementById('caseModal').classList.add('active'); document.body.style.overflow = 'hidden';
+}
+function closeCaseStudy() { document.getElementById('caseModal').classList.remove('active'); document.body.style.overflow = ''; }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeCaseStudy(); });
+
+(function() {
+  var form = document.getElementById('contactForm');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); var btn = form.querySelector('button');
+    btn.textContent = 'Message Sent!'; btn.style.opacity = '.7';
+    setTimeout(function() { btn.textContent = 'Send Message'; btn.style.opacity = '1'; form.reset(); }, 2000);
   });
 })();
 </script>
