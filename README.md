@@ -11,13 +11,13 @@
 </h3>
 
 <p align="center">
-  <a href="https://github.com/stackforgeh/stackforge">
-    <img src="https://img.shields.io/github/stars/stackforgeh/stackforge?style=for-the-badge&logo=github&color=00FF88" />
+  <a href="https://github.com/codexskills/stackforge">
+    <img src="https://img.shields.io/github/stars/codexskills/stackforge?style=for-the-badge&logo=github&color=00FF88" />
   </a>
-  <a href="https://github.com/stackforgeh/stackforge">
-    <img src="https://img.shields.io/github/v/release/stackforgeh/stackforge?style=for-the-badge&logo=git&color=00FF88" />
+  <a href="https://github.com/codexskills/stackforge">
+    <img src="https://img.shields.io/github/v/release/codexskills/stackforge?style=for-the-badge&logo=git&color=00FF88" />
   </a>
-  <a href="https://github.com/stackforgeh">
+  <a href="https://github.com/codexskills">
     <img src="https://img.shields.io/badge/AI-Agent_Skill-00FF88?style=for-the-badge&logo=openai" />
   </a>
 </p>
@@ -70,7 +70,7 @@ Infra       Vercel  Railway  Fly.io  Docker  GitHub Actions
 
 ### Featured Project
 
-### [StackForge](https://github.com/stackforgeh/stackforge)
+### [StackForge](https://github.com/codexskills/stackforge)
 > Turn any project idea into a production-ready blueprint.
 
 ```
@@ -80,8 +80,8 @@ Stars growing  Version v1.1.0  License MIT
 ---
 
 <p align="center">
-  <a href="https://github.com/stackforgeh/stackforge">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=stackforgeh&repo=stackforge&theme=dark&hide_border=true&border_radius=10&bg_color=0D1117" />
+  <a href="https://github.com/codexskills/stackforge">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=codexskills&repo=stackforge&theme=dark&hide_border=true&border_radius=10&bg_color=0D1117" />
   </a>
 </p>
 
@@ -102,5 +102,5 @@ Stars growing  Version v1.1.0  License MIT
 <div align="center">
   <i>Give me an idea, I will give you a blueprint.</i>
   <br/><br/>
-  <img src="https://komarev.com/ghpvc/?username=stackforgeh&color=00FF88&style=flat-square" />
+  <img src="https://komarev.com/ghpvc/?username=codexskills&color=00FF88&style=flat-square" />
 </div>
