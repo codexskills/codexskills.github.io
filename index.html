@@ -4,269 +4,665 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StackForge — Project Blueprint Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background: #0a0a0f;
-      color: #e0e0e0;
+      background: #06060b;
+      color: #e8e8ed;
       line-height: 1.6;
       overflow-x: hidden;
     }
-    ::selection { background: #00ffaa33; color: #00ffaa; }
 
-    /* Animated grid background */
-    .bg-grid {
+    #canvas-container {
       position: fixed; inset: 0;
-      background-image: linear-gradient(rgba(0,255,170,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,170,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      z-index: -1;
+      z-index: 0;
+      pointer-events: none;
     }
-    .bg-glow {
-      position: fixed; top: -30%; left: -20%; width: 140%; height: 140%;
-      background: radial-gradient(ellipse at 30% 20%, rgba(0,255,170,0.06) 0%, transparent 60%);
-      z-index: -1;
-      animation: pulse 8s ease-in-out infinite alternate;
+
+    .content {
+      position: relative;
+      z-index: 1;
     }
-    @keyframes pulse { 0% { opacity: 0.4; } 100% { opacity: 1; } }
 
     nav {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 1.2rem 2rem; max-width: 1200px; margin: 0 auto;
-      border-bottom: 1px solid rgba(0,255,170,0.08);
+      padding: 1.5rem 2.5rem; max-width: 1200px; margin: 0 auto;
+      position: relative; z-index: 2;
     }
-    .logo { font-weight: 800; font-size: 1.3rem; color: #00ffaa; letter-spacing: -0.5px; }
-    .logo span { color: #fff; }
+    .logo {
+      font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .logo-icon {
+      width: 32px; height: 32px; border: 2px solid #00ff88;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1rem; color: #00ff88;
+    }
+    .logo span { color: #00ff88; }
     .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a { color: #888; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: #00ffaa; }
+    .nav-links a {
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500; transition: color 0.3s;
+      letter-spacing: 0.3px;
+    }
+    .nav-links a:hover { color: #00ff88; }
+    .nav-cta {
+      padding: 0.5rem 1.25rem; border-radius: 6px;
+      background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.2);
+      color: #00ff88 !important; font-weight: 600;
+    }
 
     .hero {
-      max-width: 900px; margin: 6rem auto 4rem; padding: 0 2rem; text-align: center;
+      max-width: 1000px; margin: 0 auto; padding: 8rem 2rem 6rem;
+      text-align: center; position: relative;
     }
     .hero-badge {
-      display: inline-block; padding: 0.4rem 1.2rem; border-radius: 100px;
-      background: rgba(0,255,170,0.08); border: 1px solid rgba(0,255,170,0.15);
-      font-size: 0.8rem; color: #00ffaa; font-weight: 500; margin-bottom: 2rem;
-      text-transform: uppercase; letter-spacing: 2px;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; border-radius: 100px;
+      background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.1);
+      font-size: 0.75rem; color: #00ff88; font-weight: 500; margin-bottom: 2rem;
+      text-transform: uppercase; letter-spacing: 3px;
     }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #00ff88;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     .hero h1 {
-      font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900;
-      line-height: 1.05; letter-spacing: -2px; margin-bottom: 1.5rem;
+      font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900;
+      line-height: 1.05; letter-spacing: -3px; margin-bottom: 1.5rem;
     }
-    .hero h1 em { color: #00ffaa; font-style: normal; }
+    .hero h1 .accent { color: #00ff88; position: relative; }
+    .hero h1 .accent::after {
+      content: ''; position: absolute; bottom: 4px; left: 0; right: 0;
+      height: 8px; background: rgba(0,255,136,0.15); border-radius: 4px;
+    }
     .hero p {
-      font-size: 1.2rem; color: #888; max-width: 650px; margin: 0 auto 2.5rem;
-      line-height: 1.8;
+      font-size: 1.15rem; color: rgba(255,255,255,0.45);
+      max-width: 600px; margin: 0 auto 3rem;
+      line-height: 1.9; font-weight: 400;
     }
     .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .btn {
-      padding: 0.8rem 2rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
-      text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2.25rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+      text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.6rem;
+      letter-spacing: 0.3px;
     }
-    .btn-primary { background: #00ffaa; color: #0a0a0f; }
-    .btn-primary:hover { background: #00dd95; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,255,170,0.2); }
-    .btn-outline { border: 1px solid #333; color: #ccc; }
-    .btn-outline:hover { border-color: #00ffaa; color: #00ffaa; transform: translateY(-2px); }
+    .btn-primary {
+      background: #00ff88; color: #06060b;
+      box-shadow: 0 0 40px rgba(0,255,136,0.15);
+    }
+    .btn-primary:hover {
+      background: #00dd75; transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,255,136,0.25);
+    }
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);
+    }
+    .btn-outline:hover { border-color: #00ff88; color: #00ff88; transform: translateY(-3px); }
 
-    section { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+    .stats-row {
+      display: flex; justify-content: center; gap: 4rem;
+      padding: 3rem 2rem; max-width: 800px; margin: 0 auto;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .stat-item { text-align: center; }
+    .stat-number { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -1px; }
+    .stat-number span { color: #00ff88; }
+    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 1px; }
+
+    section { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; }
     .section-label {
-      display: inline-block; font-size: 0.75rem; text-transform: uppercase;
-      letter-spacing: 3px; color: #00ffaa; font-weight: 600; margin-bottom: 1rem;
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px;
+      color: #00ff88; font-weight: 600; margin-bottom: 1rem;
+    }
+    .section-label-line {
+      width: 32px; height: 1px; background: rgba(0,255,136,0.3);
     }
     h2 {
       font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
-      letter-spacing: -1px; margin-bottom: 3rem;
+      letter-spacing: -1.5px; margin-bottom: 1rem; line-height: 1.2;
+    }
+    .section-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.35);
+      max-width: 500px; margin-bottom: 3.5rem; font-weight: 400;
     }
 
     .pipeline {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 0; background: rgba(255,255,255,0.02); border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.05); overflow: hidden;
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 0; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.04);
+      overflow: hidden; background: rgba(255,255,255,0.015);
     }
     .pipeline-step {
-      padding: 1.8rem 1.2rem; text-align: center;
-      border-right: 1px solid rgba(255,255,255,0.05);
+      padding: 2rem 1rem; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.3s;
       position: relative;
     }
     .pipeline-step:last-child { border-right: none; }
-    .pipeline-step .num { font-size: 0.7rem; color: #00ffaa; font-weight: 700; margin-bottom: 0.5rem; }
-    .pipeline-step .label { font-size: 0.85rem; font-weight: 500; color: #ccc; }
-    .pipeline-step .arrow { color: #00ffaa; font-size: 1.2rem; position: absolute; right: -0.6rem; top: 50%; transform: translateY(-50%); }
-    .pipeline-step:last-child .arrow { display: none; }
+    .pipeline-step:hover { background: rgba(0,255,136,0.03); }
+    .pipeline-step .icon-svg { width: 32px; height: 32px; margin: 0 auto 0.75rem; }
+    .pipeline-step .icon-svg svg { width: 100%; height: 100%; }
+    .pipeline-step .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: #00ff88; font-weight: 500; margin-bottom: 0.5rem;
+      opacity: 0.6;
+    }
+    .pipeline-step .label { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.6); }
 
     .types-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.04);
+      border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.04);
     }
     .type-card {
-      padding: 1.5rem; border-radius: 12px;
-      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
-      transition: all 0.2s;
+      padding: 2rem; background: rgba(255,255,255,0.015);
+      transition: all 0.3s; cursor: default;
     }
-    .type-card:hover { border-color: rgba(0,255,170,0.2); transform: translateY(-2px); }
-    .type-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .type-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .type-card p { font-size: 0.8rem; color: #888; }
+    .type-card:hover { background: rgba(0,255,136,0.03); }
+    .type-card .icon-svg {
+      width: 40px; height: 40px; margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+    .type-card .icon-svg svg { width: 100%; height: 100%; }
+    .type-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .type-card p { font-size: 0.8rem; color: rgba(255,255,255,0.35); line-height: 1.6; }
 
-    .stack-bar {
-      display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;
-      margin-top: 2rem;
+    .stack-section {
+      display: grid; grid-template-columns: 2fr 1fr;
+      gap: 2rem; align-items: start;
     }
-    .stack-tag {
-      padding: 0.4rem 1rem; border-radius: 100px;
+    .stack-column h3 {
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 2px; color: rgba(255,255,255,0.3); margin-bottom: 1.5rem;
+    }
+    .stack-group { margin-bottom: 2rem; }
+    .stack-group-label {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+      color: #00ff88; font-weight: 500; margin-bottom: 0.75rem; opacity: 0.7;
+    }
+    .stack-pills {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .stack-pill {
+      padding: 0.35rem 1rem; border-radius: 100px;
       background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.8rem; color: #aaa; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      font-family: 'JetBrains Mono', monospace; transition: all 0.2s;
     }
-    .stack-tag:hover { border-color: rgba(0,255,170,0.2); color: #00ffaa; }
-
-    .channel-card {
-      display: flex; align-items: center; gap: 1.5rem;
+    .stack-pill:hover {
+      border-color: rgba(0,255,136,0.2); color: #00ff88;
+      background: rgba(0,255,136,0.04);
+    }
+    .stack-featured {
       padding: 2rem; border-radius: 16px;
-      background: linear-gradient(135deg, rgba(0,255,170,0.05), rgba(0,0,0,0));
-      border: 1px solid rgba(0,255,170,0.12);
-      max-width: 500px; margin: 0 auto;
+      border: 1px solid rgba(0,255,136,0.08);
+      background: rgba(0,255,136,0.02);
+      position: relative; overflow: hidden;
     }
-    .channel-card .telegram-icon {
-      width: 60px; height: 60px; border-radius: 50%;
-      background: #0088cc; display: flex; align-items: center; justify-content: center;
-      font-size: 2rem; flex-shrink: 0;
+    .stack-featured::before {
+      content: ''; position: absolute; top: -50%; right: -50%;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle, rgba(0,255,136,0.04) 0%, transparent 70%);
     }
-    .channel-card h3 { font-size: 1.1rem; margin-bottom: 0.2rem; }
-    .channel-card p { font-size: 0.85rem; color: #888; }
-    .channel-card a {
-      color: #00ffaa; text-decoration: none; font-weight: 500;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+    .stack-featured h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; position: relative; }
+    .stack-featured p { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-bottom: 1rem; position: relative; }
+    .stack-featured .version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.5rem; font-weight: 800; color: #00ff88; position: relative;
     }
-    .channel-card a:hover { text-decoration: underline; }
+    .stack-featured .version-label {
+      font-size: 0.7rem; color: rgba(255,255,255,0.3); position: relative;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .telegram-section {
+      border-radius: 16px; border: 1px solid rgba(0,255,136,0.08);
+      padding: 3rem; text-align: center;
+      background: linear-gradient(135deg, rgba(0,255,136,0.03), transparent);
+      position: relative; overflow: hidden;
+    }
+    .telegram-section::before {
+      content: ''; position: absolute; top: -100%; left: -100%;
+      width: 300%; height: 300%;
+      background: conic-gradient(from 0deg, transparent, rgba(0,255,136,0.02), transparent, rgba(0,255,136,0.02), transparent);
+      animation: rotate-bg 20s linear infinite;
+    }
+    @keyframes rotate-bg { 100% { transform: rotate(360deg); } }
+    .telegram-inner { position: relative; }
+    .telegram-section h2 { margin-bottom: 0.5rem; }
+    .telegram-section p { color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+    .telegram-link-box {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 2rem; border-radius: 12px;
+      background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.12);
+      font-family: 'JetBrains Mono', monospace; font-size: 1rem;
+      color: #00ff88; text-decoration: none; transition: all 0.3s;
+    }
+    .telegram-link-box:hover {
+      background: rgba(0,255,136,0.1); transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,255,136,0.1);
+    }
+    .telegram-link-box .channel-tag {
+      padding: 0.2rem 0.6rem; border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      font-size: 0.7rem; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
 
     footer {
-      text-align: center; padding: 3rem 2rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      color: #555; font-size: 0.85rem;
+      text-align: center; padding: 4rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      position: relative;
     }
-    footer a { color: #00ffaa; text-decoration: none; }
-    footer .telegram-link { color: #0088cc; }
+    footer p { color: rgba(255,255,255,0.2); font-size: 0.85rem; }
+    footer a { color: #00ff88; text-decoration: none; }
+    footer .footer-links {
+      display: flex; justify-content: center; gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    footer .footer-links a {
+      color: rgba(255,255,255,0.3); font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 1px; font-weight: 500;
+    }
+    footer .footer-links a:hover { color: #00ff88; }
 
-    @media (max-width: 600px) {
-      nav { flex-direction: column; gap: 1rem; }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; flex-wrap: wrap; gap: 1rem; }
+      .nav-links { gap: 1rem; flex-wrap: wrap; }
       .pipeline { grid-template-columns: repeat(3, 1fr); }
       .pipeline-step:nth-child(3) { border-right: none; }
+      .pipeline-step:nth-child(4), .pipeline-step:nth-child(5), .pipeline-step:nth-child(6) { border-top: 1px solid rgba(255,255,255,0.04); }
+      .types-grid { grid-template-columns: repeat(2, 1fr); }
+      .stack-section { grid-template-columns: 1fr; }
+      .stats-row { gap: 2rem; }
+      section { padding: 4rem 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .types-grid { grid-template-columns: 1fr; }
+      .stats-row { flex-direction: column; gap: 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-glow"></div>
 
-  <nav>
-    <div class="logo">Stack<span>Forge</span></div>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#stack">Stack</a>
-      <a href="https://github.com/stackforgeh/stackforge">GitHub</a>
-      <a href="https://t.me/REXXT_H4RE" style="color:#00ffaa;">Telegram</a>
-    </div>
-  </nav>
+  <div id="canvas-container"></div>
 
-  <div class="hero">
-    <div class="hero-badge">AI Agent Skill · v1.1.0</div>
-    <h1>Turn <em>ideas</em><br>into blueprints</h1>
-    <p>StackForge is an AI agent skill that generates production-ready project blueprints — stack selection, folder structure, database design, architecture, roadmap, and deployment — specific to your idea, not a generic template.</p>
-    <div class="hero-btns">
-      <a href="https://github.com/stackforgeh/stackforge" class="btn btn-primary">Get Started →</a>
-      <a href="https://t.me/REXXT_H4RE" class="btn btn-outline">Join Telegram</a>
+  <div class="content">
+    <nav>
+      <div class="logo">
+        <div class="logo-icon">S</div>
+        Stack<span>Forge</span>
+      </div>
+      <div class="nav-links">
+        <a href="#process">Process</a>
+        <a href="#types">Projects</a>
+        <a href="#stack">Stack</a>
+        <a href="https://github.com/stackforgeh/stackforge">GitHub</a>
+        <a href="https://t.me/REXXT_H4RE" class="nav-cta">Telegram</a>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        v1.1.0 — Agent Skill
+      </div>
+      <h1>
+        Turn <span class="accent">ideas</span><br/>
+        into blueprints
+      </h1>
+      <p>
+        StackForge is an AI agent skill that generates production-ready project blueprints — stack selection, architecture, database design, roadmap, and deployment — specific to your idea, not a generic template.
+      </p>
+      <div class="hero-btns">
+        <a href="https://github.com/stackforgeh/stackforge" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#06060b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          Get Started
+        </a>
+        <a href="https://t.me/REXXT_H4RE" class="btn btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2.5L2.5 10.5l7 3 3 7 9-18z"/><path d="M12.5 13.5l4-4"/></svg>
+          Join Telegram
+        </a>
+      </div>
     </div>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-number">9</div>
+        <div class="stat-label">Project Types</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span>10</span></div>
+        <div class="stat-label">Blueprint Sections</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span>14+</span></div>
+        <div class="stat-label">Stacks Covered</div>
+      </div>
+    </div>
+
+    <section id="process">
+      <div class="section-label">
+        <div class="section-label-line"></div>
+        Pipeline
+      </div>
+      <h2>From concept to deployment</h2>
+      <p class="section-sub">A structured 6-phase process that turns any software idea into an actionable blueprint.</p>
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="num">01</div>
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="label">Your Idea</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="num">02</div>
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <div class="label">Type Detection</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="num">03</div>
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+          </div>
+          <div class="label">Stack Selection</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="num">04</div>
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4"/><path d="M12 19v4"/><path d="M4.22 4.22l2.83 2.83"/><path d="M16.94 16.94l2.83 2.83"/><path d="M1 12h4"/><path d="M19 12h4"/><path d="M4.22 19.78l2.83-2.83"/><path d="M16.94 7.06l2.83-2.83"/></svg>
+          </div>
+          <div class="label">Architecture</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="num">05</div>
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="label">Roadmap</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="num">06</div>
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="label">Deployment</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="types">
+      <div class="section-label">
+        <div class="section-label-line"></div>
+        Capabilities
+      </div>
+      <h2>Project types supported</h2>
+      <p class="section-sub">Each type maps to a tailored reference stack with specific recommendations.</p>
+      <div class="types-grid">
+        <div class="type-card">
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+          </div>
+          <h3>Web Application</h3>
+          <p>SaaS, dashboard, e-commerce, landing pages. Full-stack with SSR, API routes, and database.</p>
+        </div>
+        <div class="type-card">
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <h3>Bot</h3>
+          <p>Telegram, Discord, and Slack bots with webhook handling, inline keyboards, and async processing.</p>
+        </div>
+        <div class="type-card">
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.78 7.78 5.5 5.5 0 017.78-7.78zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+          </div>
+          <h3>API / Backend</h3>
+          <p>RESTful APIs, GraphQL endpoints, microservices. Auto-documented with OpenAPI and type-safe.</p>
+        </div>
+        <div class="type-card">
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+          </div>
+          <h3>Mobile Application</h3>
+          <p>Cross-platform (React Native, Flutter) and native (SwiftUI). Push notifications, offline storage.</p>
+        </div>
+        <div class="type-card">
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          </div>
+          <h3>AI System</h3>
+          <p>RAG pipelines, LLM chatbots, AI agents. Vector databases, embedding models, and prompt orchestration.</p>
+        </div>
+        <div class="type-card">
+          <div class="icon-svg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <h3>CLI Tool</h3>
+          <p>Command-line applications, developer tools, automation scripts. Single-binary or pip/npm distribution.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="section-label">
+        <div class="section-label-line"></div>
+        Technology
+      </div>
+      <h2>Recommended stack</h2>
+      <p class="section-sub">Curated technology choices for each project type, with alternatives considered.</p>
+      <div class="stack-section">
+        <div class="stack-column">
+          <div class="stack-group">
+            <div class="stack-group-label">Frontend</div>
+            <div class="stack-pills">
+              <span class="stack-pill">Next.js</span>
+              <span class="stack-pill">React</span>
+              <span class="stack-pill">Remix</span>
+              <span class="stack-pill">Tailwind CSS</span>
+              <span class="stack-pill">shadcn/ui</span>
+              <span class="stack-pill">TanStack Query</span>
+            </div>
+          </div>
+          <div class="stack-group">
+            <div class="stack-group-label">Backend</div>
+            <div class="stack-pills">
+              <span class="stack-pill">FastAPI</span>
+              <span class="stack-pill">Express</span>
+              <span class="stack-pill">Django</span>
+              <span class="stack-pill">Go / Chi</span>
+              <span class="stack-pill">PostgreSQL</span>
+              <span class="stack-pill">Prisma</span>
+            </div>
+          </div>
+          <div class="stack-group">
+            <div class="stack-group-label">AI & Mobile</div>
+            <div class="stack-pills">
+              <span class="stack-pill">LangChain</span>
+              <span class="stack-pill">LangGraph</span>
+              <span class="stack-pill">Vercel AI SDK</span>
+              <span class="stack-pill">Expo</span>
+              <span class="stack-pill">Flutter</span>
+              <span class="stack-pill">pgvector</span>
+            </div>
+          </div>
+          <div class="stack-group">
+            <div class="stack-group-label">Infrastructure</div>
+            <div class="stack-pills">
+              <span class="stack-pill">Docker</span>
+              <span class="stack-pill">Railway</span>
+              <span class="stack-pill">Vercel</span>
+              <span class="stack-pill">Fly.io</span>
+              <span class="stack-pill">Redis</span>
+              <span class="stack-pill">Sentry</span>
+            </div>
+          </div>
+        </div>
+        <div class="stack-featured">
+          <h3>StackForge</h3>
+          <p>Active development — always improving</p>
+          <div class="version">1.1.0</div>
+          <div class="version-label">Current Release</div>
+          <div style="margin-top:1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;position:relative;">
+            <a href="https://github.com/stackforgeh/stackforge" style="color:rgba(255,255,255,0.3);font-size:0.75rem;text-decoration:none;border:1px solid rgba(255,255,255,0.06);padding:0.3rem 0.8rem;border-radius:6px;">Release Notes →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">
+        <div class="section-label-line"></div>
+        Community
+      </div>
+      <div class="telegram-section">
+        <div class="telegram-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="#00ff88" opacity="0.15" style="margin-bottom:1rem;">
+            <path d="M21.5 2.5L2.5 10.5l7 3 3 7 9-18z"/>
+            <path d="M12.5 13.5l4-4"/>
+          </svg>
+          <h2>Stay updated</h2>
+          <p>Release notes, stack updates, and project showcases delivered to your Telegram.</p>
+          <a href="https://t.me/REXXT_H4RE" class="telegram-link-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff88"><path d="M21.5 2.5L2.5 10.5l7 3 3 7 9-18z"/><path d="M12.5 13.5l4-4"/></svg>
+            @REXXT_H4RE
+            <span class="channel-tag">codex_update</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://github.com/stackforgeh/stackforge">GitHub</a>
+        <a href="https://t.me/REXXT_H4RE">Telegram</a>
+        <a href="https://github.com/stackforgeh">Profile</a>
+      </div>
+      <p>Built by <a href="https://github.com/stackforgeh">StackForge</a> · OpenCode Agent Skill · MIT License</p>
+      <p style="margin-top:0.5rem;font-size:0.75rem;">Telegram channel: codex_update</p>
+    </footer>
   </div>
 
-  <section id="about">
-    <div class="section-label">How It Works</div>
-    <h2>From idea to deployment plan</h2>
-    <div class="pipeline">
-      <div class="pipeline-step">
-        <div class="num">01</div>
-        <div class="label">Your Idea</div>
-        <div class="arrow">→</div>
-      </div>
-      <div class="pipeline-step">
-        <div class="num">02</div>
-        <div class="label">Type Detection</div>
-        <div class="arrow">→</div>
-      </div>
-      <div class="pipeline-step">
-        <div class="num">03</div>
-        <div class="label">Stack Selection</div>
-        <div class="arrow">→</div>
-      </div>
-      <div class="pipeline-step">
-        <div class="num">04</div>
-        <div class="label">Architecture</div>
-        <div class="arrow">→</div>
-      </div>
-      <div class="pipeline-step">
-        <div class="num">05</div>
-        <div class="label">Roadmap</div>
-        <div class="arrow">→</div>
-      </div>
-      <div class="pipeline-step">
-        <div class="num">06</div>
-        <div class="label">Deploy</div>
-      </div>
-    </div>
-  </section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
 
-  <section>
-    <div class="section-label">Project Types</div>
-    <h2>What I can build</h2>
-    <div class="types-grid">
-      <div class="type-card"><div class="icon">🌐</div><h3>Web App</h3><p>SaaS, dashboard, e-commerce, landing page</p></div>
-      <div class="type-card"><div class="icon">🤖</div><h3>Bot</h3><p>Telegram, Discord, Slack bots & automation</p></div>
-      <div class="type-card"><div class="icon">⚙️</div><h3>API / Backend</h3><p>REST, GraphQL, microservices</p></div>
-      <div class="type-card"><div class="icon">📱</div><h3>Mobile App</h3><p>React Native, Flutter, SwiftUI</p></div>
-      <div class="type-card"><div class="icon">🧠</div><h3>AI System</h3><p>RAG, LLM chatbots, AI agents</p></div>
-      <div class="type-card"><div class="icon">💻</div><h3>CLI Tool</h3><p>Command-line apps, scripts, dev tools</p></div>
-    </div>
-  </section>
+    // Particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const count = 2000;
+    const positions = new Float32Array(count * 3);
+    const sizes = new Float32Array(count);
 
-  <section id="stack">
-    <div class="section-label">Tech Stack</div>
-    <h2>Recommended technologies</h2>
-    <div class="stack-bar">
-      <span class="stack-tag">Next.js</span>
-      <span class="stack-tag">React</span>
-      <span class="stack-tag">FastAPI</span>
-      <span class="stack-tag">PostgreSQL</span>
-      <span class="stack-tag">Prisma</span>
-      <span class="stack-tag">LangChain</span>
-      <span class="stack-tag">Django</span>
-      <span class="stack-tag">Express</span>
-      <span class="stack-tag">Go</span>
-      <span class="stack-tag">Expo</span>
-      <span class="stack-tag">Flutter</span>
-      <span class="stack-tag">Docker</span>
-      <span class="stack-tag">Tailwind</span>
-      <span class="stack-tag">Redis</span>
-    </div>
-  </section>
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 30;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 30;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+      sizes[i] = Math.random() * 2 + 0.5;
+    }
 
-  <section>
-    <div class="section-label">Stay Connected</div>
-    <h2>Join the community</h2>
-    <div class="channel-card">
-      <div class="telegram-icon">✈️</div>
-      <div>
-        <h3>CodeX Updates</h3>
-        <p>Telegram channel for StackForge news & updates</p>
-        <a href="https://t.me/REXXT_H4RE">@REXXT_H4RE</a>
-      </div>
-    </div>
-  </section>
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-  <footer>
-    <p>Built with ❤️ by <a href="https://github.com/stackforgeh">StackForge</a></p>
-    <p style="margin-top:0.5rem;">Telegram: <a href="https://t.me/REXXT_H4RE" class="telegram-link">@REXXT_H4RE</a> · Channel: <strong>codex_update</strong></p>
-    <p style="margin-top:0.5rem;">© 2026 StackForge · MIT License</p>
-  </footer>
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.03,
+      color: 0x00ff88,
+      transparent: true,
+      opacity: 0.4,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    // Grid
+    const gridHelper = new THREE.GridHelper(20, 30, 0x00ff88, 0x00ff88);
+    gridHelper.position.y = -5;
+    gridHelper.material.transparent = true;
+    gridHelper.material.opacity = 0.08;
+    scene.add(gridHelper);
+
+    // Floating shapes
+    const shapes = [];
+    const shapeColors = [0x00ff88, 0x00dd75, 0x00aa55];
+    
+    for (let i = 0; i < 8; i++) {
+      const geometry = new THREE.IcosahedronGeometry(Math.random() * 0.2 + 0.05, 0);
+      const material = new THREE.MeshBasicMaterial({
+        color: shapeColors[i % shapeColors.length],
+        transparent: true,
+        opacity: Math.random() * 0.15 + 0.05,
+        wireframe: true,
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(
+        (Math.random() - 0.5) * 15,
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 10 - 3
+      );
+      mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+      mesh.userData = {
+        rotSpeed: { x: (Math.random() - 0.5) * 0.01, y: (Math.random() - 0.5) * 0.01 },
+        floatSpeed: Math.random() * 0.002 + 0.001,
+        floatOffset: Math.random() * Math.PI * 2,
+      };
+      scene.add(mesh);
+      shapes.push(mesh);
+    }
+
+    camera.position.z = 8;
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      particlesMesh.rotation.y += 0.0003;
+      particlesMesh.rotation.x += 0.0001;
+
+      gridHelper.position.z = Math.sin(Date.now() * 0.0001) * 0.5;
+
+      shapes.forEach((mesh, i) => {
+        mesh.rotation.x += mesh.userData.rotSpeed.x;
+        mesh.rotation.y += mesh.userData.rotSpeed.y;
+        mesh.position.y += Math.sin(Date.now() * mesh.userData.floatSpeed + mesh.userData.floatOffset) * 0.002;
+      });
+
+      camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.02;
+      camera.position.y += (mouseY * 0.3 - camera.position.y) * 0.02;
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
 </body>
 </html>
